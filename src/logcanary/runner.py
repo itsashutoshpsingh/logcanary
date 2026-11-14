@@ -66,15 +66,35 @@ def reset_host_logs() -> None:
               "journalctl -D /var/log/journal --vacuum-time=1s >/dev/null 2>&1; true")
 
 
-def use_shipper_set(name: str) -> None:
-    if current_shipper_set() == name and all(lab.running(c) for c in lab.SHIPPERS.values()):
+def use_host(tag: str) -> None:
+    """Swap the host under test (same log volume), then start the shippers afresh on it."""
+    img = lab.sh("docker", "inspect", "-f", "{{.Config.Image}}", lab.HOST, check=False).stdout.strip()
+    if img == f"logcanary-host:{tag}":
+        return
+    log(f"switching host to logcanary-host:{tag}")
+    lab.compose("rm", "-sf", "filebeat", "fluentbit", "vector")
+    lab.compose("up", "-d", "--force-recreate", "host", env={"HOST_TAG": tag})
+    time.sleep(5)
+    lab.dexec(lab.HOST, "sh", "-c", "rm -rf /var/log/journal/* && kill -USR2 $(cat /run/logcanary/journald.pid); true")
+    use_shipper_set(current_shipper_set() or "default", force=True)
+
+
+def use_shipper_set(name: str, force: bool = False) -> None:
+    """Recreate the shippers only when the wanted config set differs (a dead shipper is restarted
+    by preflight instead, keeping its registry and offsets)."""
+    if current_shipper_set() == name and not force:
         return
     log(f"switching shippers to the {name!r} set")
     lab.compose("rm", "-sf", "filebeat", "fluentbit", "vector")
     lab.sh("docker", "volume", "rm", "-f", "logcanary_fbstate", check=False)
     reset_host_logs()
-    lab.compose("up", "-d", "filebeat", "fluentbit", "vector", env={"SHIPPER_SET": name})
+    lab.compose("up", "-d", "--no-deps", "filebeat", "fluentbit", "vector", env={"SHIPPER_SET": name})
     time.sleep(15)
+
+
+def restart_count(container: str) -> int | None:
+    r = lab.sh("docker", "inspect", "-f", "{{.RestartCount}}", container, check=False)
+    return int(r.stdout.strip()) if r.returncode == 0 else None
 
 
 def preflight(cond: Condition) -> dict:
@@ -83,6 +103,7 @@ def preflight(cond: Condition) -> dict:
         lab.sh("docker", "start", lab.ES)
         notes["restarted"].append(lab.ES)
     lab.es_up()
+    use_host(cond.host)
     use_shipper_set(cond.shipper_set)
     for c in (lab.HOST, *lab.SHIPPERS.values()):
         st = lab.state(c)
@@ -144,6 +165,7 @@ def run_once(cond: Condition, repeat: int) -> Path:
         faults.ACTIONS[action](**kw)
     mark = json.loads(lab.host_py("-m", "logcanary.hostprobe", "mark"))
     before = shipper_counters()
+    restarts_before = {c: restart_count(c) for c in lab.SHIPPERS.values()}
     t_start = lab.now_ns()
     ledger_path = f"/var/lib/logcanary/{run}.db"
     cmd = ["docker", "exec", *lab.PYENV, lab.HOST, "python3", "-m", "logcanary.writer", "--run", run,
@@ -182,16 +204,17 @@ def run_once(cond: Condition, repeat: int) -> Path:
 
     write_csv_gz(out / "ledger.csv.gz", LEDGER_COLS, ledger)
     write_csv_gz(out / "arrivals.csv.gz", ARRIVAL_COLS, arrivals)
-    states = {c: {k: lab.state(c).get(k) for k in ("Running", "OOMKilled", "RestartCount", "StartedAt")}
-              for c in (lab.ES, lab.HOST, *lab.SHIPPERS.values())}
+    states = {c: {**{k: lab.state(c).get(k) for k in ("Running", "OOMKilled", "StartedAt")},
+                  "RestartCount": restart_count(c)} for c in (lab.ES, lab.HOST, *lab.SHIPPERS.values())}
     meta = {
         "run": run, "condition": cond.name, "title": cond.title, "repeat": repeat,
         "params": {k: getattr(cond, k) for k in ("rate", "count", "size", "sizes", "kinds", "shipper_set",
-                                                 "settle_s")},
+                                                 "settle_s", "host")},
         "faults": fault_log, "t_start_ns": t_start, "t_writer_done_ns": t_writer_done,
         "writer": writer_summary, "settle": st, "preflight": notes, "probe_on_disk": probe["on_disk"],
         "host_supervisor": probe["supervisor"], "journald_stderr_tail": probe["journald_stderr_tail"],
         "counters_before": before, "counters_after": after, "mem_mb": lab.mem_usage_mb(), "states": states,
+        "restarts_before": restarts_before,
     }
     (out / "meta.json").write_text(json.dumps(meta, indent=1))
     (out / "alerts.json").write_text(json.dumps(comp, indent=1))
@@ -233,6 +256,11 @@ def compute_result(out: Path) -> dict:
             m["alert_host"] = comp[host_daemon]["status"]
             m["shipper_counted_loss"] = alerts.counted_loss(shipper, d)
             m["silent"] = bool(m["lost"]) and "loss" not in (comp[shipper]["status"], comp[host_daemon]["status"])
+            c = lab.SHIPPERS[shipper]
+            before_n = meta.get("restarts_before", {}).get(c)
+            after_n = meta["states"][c].get("RestartCount")
+            # restarts by Docker's on-failure policy only: deliberate restarts and kills do not count
+            m["shipper_crashes"] = (after_n - before_n) if None not in (before_n, after_n) else None
             result[f"{shipper}/{src}"] = m
     return result
 

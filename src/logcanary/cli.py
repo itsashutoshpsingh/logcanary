@@ -25,6 +25,8 @@ def lab_up() -> None:
     if os.environ.get("https_proxy"):
         build += ["--build-arg", f"https_proxy={os.environ['https_proxy']}"]
     lab.sh(*build, str(lab.LAB / "host"), timeout=1800)
+    jammy = [b if b != "logcanary-host:noble" else "logcanary-host:jammy" for b in build]
+    lab.sh(*jammy, "-f", str(lab.LAB / "host" / "Dockerfile.jammy"), str(lab.LAB / "host"), timeout=1800)
     lab.compose("up", "-d", "es")
     lab.es_up()
     lab.install_es_assets()
@@ -65,9 +67,9 @@ def main(argv: list[str] | None = None) -> int:
         runner.run_condition(ALL[a.cond], a.repeats)
     elif a.cmd == "matrix":
         from logcanary import report, runner
-        from logcanary.conditions import MATRIX, TUNED
+        from logcanary.conditions import JAMMY, MATRIX, TUNED
 
-        for c in MATRIX + TUNED:
+        for c in MATRIX + TUNED + JAMMY:
             if a.group is None or c.group == a.group:
                 runner.run_condition(c)
                 report.finalize_old()  # conditions whose last run is 15+ minutes old
@@ -89,9 +91,9 @@ def main(argv: list[str] | None = None) -> int:
         summary.main()
     elif a.cmd == "list":
         from logcanary import runner
-        from logcanary.conditions import MATRIX, TUNED
+        from logcanary.conditions import JAMMY, MATRIX, TUNED
 
-        for c in MATRIX + TUNED:
+        for c in MATRIX + TUNED + JAMMY:
             print(f"{c.name:24} {runner.done_repeats(c)}/{c.repeats}  {c.title}")
     return 0
 

@@ -42,13 +42,12 @@ def build() -> dict:
     worst = max(default, key=lambda r: f(r["loss_mean_pct"]))
     lossy = [r for r in runs if int(r["lost"]) > 0]
     silent = [r for r in lossy if r["silent"] == "True"]
-    silent_pct = 100 * len(silent) / len(lossy) if lossy else 0.0
 
     metrics = [
-        {"label": "canaries written and reconciled", "value": f"{sent:,}"},
-        {"label": f"worst default loss ({SHIP[worst['shipper']]}, {ALL[worst['condition']].title.lower()})",
+        {"label": "Canaries written and reconciled", "value": f"{sent:,}"},
+        {"label": f"Worst default loss ({SHIP[worst['shipper']]}, {ALL[worst['condition']].title.lower()})",
          "value": pct(f(worst["loss_mean_pct"]))},
-        {"label": "lossy streams with no log line about the loss", "value": f"{len(silent)} of {len(lossy)}"},
+        {"label": "Lossy streams with no log line about the loss", "value": f"{len(silent)} of {len(lossy)}"},
     ]
     b = cm.get(("burst_4k", "filebeat", "journald"))
     if b:
@@ -56,11 +55,11 @@ def build() -> dict:
                         "value": pct(100 * f(b["lost_before_disk_total"]) / f(b["sent_total"]))})
     r = cm.get(("shipper_restart", "fluentbit", "syslog"))
     if r:
-        metrics.append({"label": "fluent bit default, lost across a graceful restart",
+        metrics.append({"label": "Fluent Bit default config, lost across a graceful restart",
                         "value": pct(f(r["loss_mean_pct"]))})
     r = cm.get(("baseline", "filebeat", "syslog"))
     if r:
-        metrics.append({"label": "filebeat default median delay at 20 events/s",
+        metrics.append({"label": "Filebeat default median delay at 20 events/s",
                         "value": f"{f(r['lat_p50_ms']) / 1000:.1f} s"})
     trunc = [r for r in default if r["condition"] == "sizes" and r["src"] == "syslog"]
     if trunc:
@@ -68,10 +67,10 @@ def build() -> dict:
                         "value": pct(_intact_at("sizes", "syslog", 65536))})
     if tuned:
         tw = max(tuned, key=lambda r: f(r["loss_mean_pct"]))
-        metrics.append({"label": f"worst loss with tuned shippers ({SHIP[tw['shipper']]}, "
+        metrics.append({"label": f"Worst loss with tuned shippers ({SHIP[tw['shipper']]}, "
                                  f"{ALL[tw['condition']].title.split(' (')[0].lower()})",
                         "value": pct(f(tw["loss_mean_pct"]))})
-    metrics.append({"label": "runs (each read by three shippers on two log paths)", "value": str(n_runs)})
+    metrics.append({"label": "Runs (each read by three shippers on two log paths)", "value": str(n_runs)})
 
     headline = (f"{sent:,} numbered canaries written through rsyslog and journald on an Ubuntu 24.04 host and "
                 f"counted again in Elasticsearch across {n_cond} conditions: default pipelines lost up to "
@@ -131,7 +130,8 @@ def viz(cm: dict) -> list[dict]:
         if bars:
             out.append({"title": title, "unit": "%", "bars": bars})
     bars = []
-    for c, lbl in (("baseline", "20/s"), ("burst_1k", "1,000/s"), ("burst_4k", "4,000/s"), ("burst_max", "max")):
+    for c, lbl in (("baseline", "Steady 20/s"), ("burst_1k", "Burst 1,000/s"), ("burst_4k", "Burst 4,000/s"),
+                   ("burst_max", "Burst flat out")):
         r = cm.get((c, "filebeat", "journald"))
         if r:
             v = round(100 * f(r["lost_before_disk_total"]) / f(r["sent_total"]), 2)

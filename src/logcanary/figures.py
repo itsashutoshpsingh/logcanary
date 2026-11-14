@@ -22,20 +22,26 @@ ROOT = Path(__file__).resolve().parents[2]
 RESULTS = ROOT / "results"
 IMG = ROOT / "docs" / "img"
 
-BG, FG, MUTED, GRID = "#0E1522", "#E6EDF5", "#9FB0C3", "#22324A"
-BLUE, GREEN, AMBER, RED, CYAN = "#5BA8FF", "#4FD8A0", "#F0B35B", "#FF5C7A", "#6BE4F0"
-SHIP_COLOR = {"filebeat": BLUE, "fluentbit": AMBER, "vector": GREEN}
+BG, FG, MUTED, GRID = "#0C1421", "#FFFFFF", "#C9D4E2", "#1F2E45"
+BLUE, GREEN, RED, YELLOW, WHITE = "#3B82F6", "#22C55E", "#EF4444", "#FACC15", "#FFFFFF"
+SHIP_COLOR = {"filebeat": BLUE, "fluentbit": YELLOW, "vector": GREEN}
+HATCH = {"syslog": "", "journald": "///"}  # journald bars are hatched, never faded
+LS = {"syslog": "-", "journald": "--"}
+SRC_TITLE = {"syslog": "File path (rsyslog, /var/log/syslog)", "journald": "Journal path (journald)"}
 SHIP_NAME = {"filebeat": "Filebeat 8.19.25", "fluentbit": "Fluent Bit 5.1.5", "vector": "Vector 0.61.0"}
 SRC_NAME = {"syslog": "rsyslog file", "journald": "journald"}
 SHIPPERS = ("filebeat", "fluentbit", "vector")
 SRCS = ("syslog", "journald")
+SHIPPERS_SRCS = [(sh, src) for sh in SHIPPERS for src in SRCS]
 
 plt.rcParams.update({
     "figure.facecolor": BG, "axes.facecolor": BG, "savefig.facecolor": BG, "text.color": FG,
     "axes.labelcolor": FG, "axes.edgecolor": GRID, "xtick.color": MUTED, "ytick.color": MUTED,
-    "grid.color": GRID, "axes.grid": True, "grid.linewidth": 0.8, "font.family": "DejaVu Sans",
-    "font.size": 10, "axes.titlesize": 12.5, "axes.titleweight": "bold", "legend.frameon": False,
-    "legend.labelcolor": FG, "axes.axisbelow": True,
+    "grid.color": GRID, "axes.grid": True, "grid.linewidth": 0.8, "font.family": "Carlito",
+    "font.size": 11, "axes.titlesize": 15, "axes.titleweight": "bold", "axes.labelsize": 12,
+    "xtick.labelsize": 11, "ytick.labelsize": 11, "legend.fontsize": 11, "legend.frameon": False,
+    "legend.labelcolor": FG, "axes.axisbelow": True, "hatch.color": BG, "hatch.linewidth": 1.2,
+    "figure.titlesize": 15, "figure.titleweight": "bold",
 })
 
 
@@ -60,7 +66,7 @@ def fnum(x) -> float | None:
     return None if x in (None, "", "None") else float(x)
 
 
-def bar_labels(ax, bars, values, fmt="{:.1f}", pad=0.6, size=7.5):
+def bar_labels(ax, bars, values, fmt="{:.1f}", pad=0.6, size=11):
     for b, v in zip(bars, values, strict=False):
         if v is None:
             continue
@@ -85,10 +91,10 @@ def fig_pipeline() -> str:
     ax.axis("off")
 
     def box(x, y, w, h, title, sub, color):
-        ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.02,rounding_size=0.08", fc="#13203A",
+        ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.02,rounding_size=0.08", fc=BG,
                                     ec=color, lw=1.6))
-        ax.text(x + w / 2, y + h - 0.2, title, ha="center", va="top", fontsize=10, color=FG, weight="bold")
-        ax.text(x + w / 2, y + h - 0.52, sub, ha="center", va="top", fontsize=8, color=MUTED, linespacing=1.35)
+        ax.text(x + w / 2, y + h - 0.2, title, ha="center", va="top", fontsize=12, color=FG, weight="bold")
+        ax.text(x + w / 2, y + h - 0.52, sub, ha="center", va="top", fontsize=11, color=MUTED, linespacing=1.3)
 
     def arrow(x1, y1, x2, y2, color=MUTED, ls="-"):
         ax.annotate("", xy=(x2, y2), xytext=(x1, y1),
@@ -96,30 +102,32 @@ def fig_pipeline() -> str:
 
     ax.add_patch(FancyBboxPatch((0.15, 0.75), 6.0, 3.95, boxstyle="round,pad=0.02,rounding_size=0.1",
                                 fc="none", ec=GRID, lw=1.2, ls="--"))
-    ax.text(0.3, 4.52, "host under test: Ubuntu 24.04 container (lab-host)", fontsize=9, color=MUTED)
-    box(0.35, 2.95, 1.75, 1.35, "canary writer", "numbered events\nsyslog(3) and\nnative journal", CYAN)
-    box(0.35, 0.95, 1.75, 1.35, "source ledger", "SQLite: seq, true,\nmonotonic and\nhost clock", CYAN)
+    ax.text(0.3, 4.52, "Host under test: Ubuntu 24.04 container (lab-host)", fontsize=11, color=MUTED)
+    box(0.35, 2.95, 1.75, 1.35, "Canary writer", "Numbered events\nvia syslog(3) and\nnative journal", WHITE)
+    box(0.35, 0.95, 1.75, 1.35, "Source ledger", "SQLite: seq, true,\nmonotonic and\nhost clock", WHITE)
     box(2.45, 3.15, 1.75, 1.15, "rsyslog 8.2312", "/dev/log ->\n/var/log/syslog", MUTED)
-    box(2.45, 1.75, 1.75, 1.15, "journald 255", "native socket ->\n/var/log/journal", MUTED)
-    box(4.45, 0.95, 1.55, 3.35, "shippers", "Filebeat 8.19.25\nFluent Bit 5.1.5\nVector 0.61.0\n\nread the same\n"
-        "files, one index\neach", AMBER)
-    box(6.9, 2.0, 1.9, 1.7, "Elasticsearch", "8.19.25, single node\ningest pipeline sets\nevent.ingested", BLUE)
-    box(9.1, 2.0, 1.75, 1.7, "reconciler", "scroll every doc\nof the run, compare\nwith the ledger", GREEN)
+    box(2.45, 1.75, 1.75, 1.15, "journald 255", "Native socket ->\n/var/log/journal", MUTED)
+    box(4.45, 0.95, 1.55, 3.35, "Shippers", "Filebeat 8.19.25\nFluent Bit 5.1.5\nVector 0.61.0\n\nRead the same\n"
+        "files, one index\neach", YELLOW)
+    box(6.9, 2.75, 1.9, 1.6, "Elasticsearch", "Version 8.19.25\nIngest pipeline sets\nevent.ingested", BLUE)
+    box(9.1, 2.75, 1.75, 1.6, "Reconciler", "Scrolls every doc\nof the run and\ncompares with\nthe ledger", GREEN)
     arrow(2.1, 3.75, 2.45, 3.75)
     arrow(2.1, 3.3, 2.45, 2.35)
-    arrow(1.22, 2.95, 1.22, 2.3, CYAN)
+    arrow(1.22, 2.95, 1.22, 2.3, WHITE)
     arrow(4.2, 3.75, 4.45, 3.75)
     arrow(4.2, 2.35, 4.45, 2.35)
-    arrow(6.0, 2.85, 6.9, 2.85)
-    arrow(8.8, 2.85, 9.1, 2.85)
-    ax.plot([1.22, 1.22, 9.97, 9.97], [0.95, 0.4, 0.4, 1.6], color=GREEN, lw=1.3, ls=":")
-    arrow(9.97, 1.55, 9.97, 2.0, GREEN)
-    ax.text(5.6, 0.12, "ground truth goes round the pipeline, never through it", fontsize=8.5, color=GREEN,
+    arrow(6.0, 3.55, 6.9, 3.55)
+    arrow(8.8, 3.55, 9.1, 3.55)
+    ax.plot([1.22, 1.22, 9.97, 9.97], [0.95, 0.4, 0.4, 2.35], color=GREEN, lw=1.3, ls=":")
+    arrow(9.97, 2.3, 9.97, 2.75, GREEN)
+    ax.text(5.6, 0.12, "Ground truth goes round the pipeline, never through it", fontsize=11, color=GREEN,
             ha="center")
-    ax.text(6.45, 4.65, "faults: bursts, shipper restart and SIGKILL, network partition,\nElasticsearch stop or pause, "
-            "clock jump (libfaketime), log rotation,\njournal vacuum, daemon SIGKILL, disk caps", fontsize=8,
+    ax.text(6.4, 2.45, "Faults: bursts, shipper restart and\nSIGKILL, network partition, Elasticsearch\n"
+            "stop or pause, clock jump (libfaketime),\nlog rotation, journal vacuum, daemon\nSIGKILL, disk caps",
+            fontsize=11,
             color=RED, ha="left", va="top", linespacing=1.4)
-    ax.set_title("logcanary: canaries written on the host, counted again in Elasticsearch", loc="left")
+    ax.set_title("Canaries written on the host are counted again in Elasticsearch, against a ledger the "
+                 "pipeline never touches", loc="left")
     return save(fig, "pipeline.png")
 
 
@@ -145,14 +153,20 @@ SHORT = {"baseline": "steady 20/s", "burst_1k": "burst 1k/s", "burst_4k": "burst
          "clock_back_10m": "clock -10 min"}
 
 
+SHORT = {k: v[0].upper() + v[1:] for k, v in SHORT.items()}
+SHORT.update({"jammy_" + k: v + " (22.04)" for k, v in list(SHORT.items())})
+
+
 def fig_hero_loss() -> str:
     rows = load_conditions()
     cm = cond_map(rows)
     conds = present(rows, FAULT_ORDER)
-    fig, axes = plt.subplots(1, 2, figsize=(13, 0.42 * len(conds) + 2.2), sharey=True)
+    fig, axes = plt.subplots(1, 2, figsize=(15, 0.75 * len(conds) + 2.4), sharey=True)
     y = np.arange(len(conds))
     h = 0.26
     worst = max(rows, key=lambda r: fnum(r["loss_mean_pct"]) or 0)
+    top = max((fnum(r["loss_ci_hi"]) or fnum(r["loss_mean_pct"]) or 0) for r in rows if r["condition"] in conds)
+    xmax = min(105.0, max(10.0, top * 1.15))
     for ax, src in zip(axes, SRCS, strict=True):
         for i, sh in enumerate(SHIPPERS):
             vals, lo, hi = [], [], []
@@ -166,17 +180,17 @@ def fig_hero_loss() -> str:
             ax.barh(yy, vals, h, color=SHIP_COLOR[sh], label=SHIP_NAME[sh], xerr=[lo, hi],
                     error_kw={"ecolor": MUTED, "lw": 0.8, "capsize": 1.5})
             for yv, v in zip(yy, vals, strict=True):
-                ax.text(v + 0.8, yv, f"{v:.1f}" if v >= 0.05 else ("0" if v == 0 else f"{v:.2f}"), va="center",
-                        fontsize=6.5, color=FG if v else MUTED)
-        ax.set_title(f"{SRC_NAME[src]} path", loc="left", fontsize=11)
-        ax.set_xlabel("canaries lost, % of sent (mean of repeats, bar = 95% CI)")
-        ax.set_xlim(0, 105)
+                ax.text(v + xmax / 130, yv, f"{v:.1f}" if v >= 0.05 else ("0" if v == 0 else f"{v:.2f}"), va="center",
+                        fontsize=11, color=FG if v else MUTED)
+        ax.set_title(SRC_TITLE[src], loc="left", fontsize=13)
+        ax.set_xlabel("Canaries lost, % of sent (mean of repeats; whisker = 95% CI)")
+        ax.set_xlim(0, xmax)
     axes[0].set_yticks(y, [SHORT[c] for c in conds])
     axes[0].invert_yaxis()
-    axes[0].legend(loc="lower right", fontsize=8.5)
+    axes[0].legend(loc="lower right")
     fig.suptitle(f"Default pipelines lost up to {float(worst['loss_mean_pct']):.0f}% of canaries "
                  f"({SHIP_NAME[worst['shipper']]}, {SHORT.get(worst['condition'], worst['condition'])}); "
-                 "steady load lost none", x=0.01, ha="left", fontsize=13, weight="bold")
+                 "steady load lost none", x=0.01, ha="left")
     fig.tight_layout()
     return save(fig, "loss_by_condition.png")
 
@@ -200,7 +214,7 @@ def fig_latency_ecdf() -> str:
     lat = _arrival_latencies("baseline")
     if not lat:
         raise FileNotFoundError("baseline")
-    fig, ax = plt.subplots(figsize=(10, 5.2))
+    fig, ax = plt.subplots(figsize=(12, 6.2))
     meds = {}
     for sh in SHIPPERS:
         for src, ls in (("syslog", "-"), ("journald", "--")):
@@ -208,16 +222,17 @@ def fig_latency_ecdf() -> str:
             if not len(v):
                 continue
             meds[(sh, src)] = float(np.median(v))
-            ax.plot(v / 1000, np.arange(1, len(v) + 1) / len(v) * 100, ls, color=SHIP_COLOR[sh], lw=1.8,
+            ax.plot(v / 1000, np.arange(1, len(v) + 1) / len(v) * 100, ls, color=SHIP_COLOR[sh], lw=2,
                     label=f"{SHIP_NAME[sh]}, {SRC_NAME[src]} (median {np.median(v) / 1000:.2f} s, n={len(v)})")
     ax.set_xscale("log")
-    ax.set_xlabel("ingest latency: indexed in Elasticsearch minus written on the host (seconds, log scale)")
-    ax.set_ylabel("canaries indexed by then (%)")
+    ax.set_xlabel("Ingest latency: indexed in Elasticsearch minus written on the host (seconds, log scale)")
+    ax.set_ylabel("Canaries indexed by then (%)")
     slow = max(meds, key=meds.get)
     fast = min(meds, key=meds.get)
     ax.set_title(f"Steady load: median delay ranged from {meds[fast] / 1000:.2f} s ({SHIP_NAME[fast[0]]}) to "
                  f"{meds[slow] / 1000:.1f} s ({SHIP_NAME[slow[0]]})", loc="left")
-    ax.legend(fontsize=8, loc="lower right")
+    ax.set_xlim(left=0.01)
+    ax.legend(fontsize=10.5, loc="upper left")
     return save(fig, "latency_baseline_ecdf.png")
 
 
@@ -232,27 +247,27 @@ def fig_latency_conditions() -> str:
             r = cm.get((c, sh, src))
             v = fnum(r["lat_p95_ms"]) if r else None
             grid[i, j] = v / 1000 if v is not None else np.nan
-    fig, ax = plt.subplots(figsize=(1.0 * len(conds) + 3, 4.6))
+    fig, ax = plt.subplots(figsize=(1.15 * len(conds) + 4, 5.4))
     from matplotlib.colors import LinearSegmentedColormap, LogNorm
 
-    cmap = LinearSegmentedColormap.from_list("lc", ["#13203A", BLUE, AMBER, RED])
+    cmap = LinearSegmentedColormap.from_list("lc", [BLUE, YELLOW, RED])
     im = ax.imshow(np.clip(grid, 0.1, None), aspect="auto", cmap=cmap, norm=LogNorm(vmin=0.1, vmax=1000))
     for i in range(len(keys)):
         for j in range(len(conds)):
             v = grid[i, j]
             if not np.isnan(v):
-                ax.text(j, i, f"{v:.0f}" if v >= 10 else f"{v:.1f}", ha="center", va="center", fontsize=7.5,
-                        color=FG)
+                ax.text(j, i, f"{v:.0f}" if v >= 10 else f"{v:.1f}", ha="center", va="center", fontsize=11,
+                        color=BG, weight="bold")
     ax.set_xticks(range(len(conds)), [SHORT[c] for c in conds], rotation=35, ha="right")
     ax.set_yticks(range(len(keys)), [f"{SHIP_NAME[s].split(' ')[0] if s != 'fluentbit' else 'Fluent Bit'}, "
                                      f"{SRC_NAME[p]}" for s, p in keys])
     ax.grid(False)
     cb = fig.colorbar(im, ax=ax, pad=0.01)
-    cb.set_label("p95 ingest latency (s, log scale)", color=FG)
+    cb.set_label("95th percentile ingest latency (s, log scale)", color=FG)
     cb.ax.yaxis.set_tick_params(color=MUTED)
     worst = np.nanmax(grid)
-    ax.set_title(f"95th percentile delay per condition: from about a second to {worst / 60:.0f} minutes "
-                 "behind the host", loc="left")
+    ax.set_title(f"The 95th percentile delay ran from about a second to {worst / 60:.0f} minutes behind the host",
+                 loc="left")
     return save(fig, "latency_p95_heatmap.png")
 
 
@@ -263,7 +278,7 @@ def fig_duplicates() -> str:
              if any((fnum(cm[(c, s, p)]["dup_total"]) or 0) > 0 for s in SHIPPERS for p in SRCS if (c, s, p) in cm)]
     if not conds:
         conds = present(rows, ["shipper_restart", "shipper_crash", "partition_60", "es_down_120"])
-    fig, ax = plt.subplots(figsize=(max(7, 1.4 * len(conds) + 2), 4.8))
+    fig, ax = plt.subplots(figsize=(max(9, 2.0 * len(conds) + 3), 6))
     x = np.arange(len(conds))
     w = 0.13
     best = (0, None)
@@ -272,18 +287,18 @@ def fig_duplicates() -> str:
         for c, v in zip(conds, vals, strict=True):
             if v and v > best[0]:
                 best = (v, (c, sh, src))
-        b = ax.bar(x + (i - 2.5) * w, vals, w, color=SHIP_COLOR[sh], alpha=1.0 if src == "syslog" else 0.55,
+        b = ax.bar(x + (i - 2.5) * w, vals, w, color=SHIP_COLOR[sh], hatch=HATCH[src], edgecolor=BG, lw=0,
                    label=f"{SHIP_NAME[sh]}, {SRC_NAME[src]}")
-        bar_labels(ax, b, vals, "{:.1f}", pad=0.05, size=6.5)
+        bar_labels(ax, [bb for bb, v in zip(b, vals, strict=True) if v], [v for v in vals if v], "{:.0f}", pad=0.5)
     ax.set_xticks(x, [SHORT[c] for c in conds], rotation=20, ha="right")
-    ax.set_ylabel("duplicate documents, % of sent (mean of repeats)")
+    ax.set_ylabel("Duplicate documents, % of sent (mean of repeats)")
     if best[1]:
         c, sh, src = best[1]
         ax.set_title(f"Duplicates: at most {best[0]:.1f}% ({SHIP_NAME[sh]}, {SRC_NAME[src]}, {SHORT[c]})",
                      loc="left")
     else:
         ax.set_title("No condition produced a duplicate document", loc="left")
-    ax.legend(fontsize=7.5, ncol=3, loc="upper left")
+    ax.legend(fontsize=10.5, ncol=3, loc="upper left")
     return save(fig, "duplicates.png")
 
 
@@ -321,10 +336,10 @@ def fig_fidelity() -> str:
     if not sizes and not kinds:
         raise FileNotFoundError("sizes/mangling")
     keys = [(sh, src) for sh in SHIPPERS for src in SRCS]
-    fig, axes = plt.subplots(1, 2, figsize=(14, 4.8), gridspec_kw={"width_ratios": [7, 4]})
+    fig, axes = plt.subplots(1, 2, figsize=(17, 6), gridspec_kw={"width_ratios": [7, 4]})
     from matplotlib.colors import LinearSegmentedColormap
 
-    cmap = LinearSegmentedColormap.from_list("ok", [RED, AMBER, GREEN])
+    cmap = LinearSegmentedColormap.from_list("ok", [RED, YELLOW, GREEN])
     lowest = (101, "")
     for ax, data, title in ((axes[0], sizes, "by message size"), (axes[1], kinds, "by content")):
         buckets = sorted({b for k in data.values() for b in k}, key=lambda b: (isinstance(b, str), b))
@@ -345,18 +360,29 @@ def fig_fidelity() -> str:
         for i in range(len(keys)):
             for j in range(len(buckets)):
                 if not np.isnan(grid[i, j]):
-                    ax.text(j, i, f"{grid[i, j]:.0f}%" + (f"\n{notes[i][j]}" if grid[i, j] < 100 else ""),
-                            ha="center", va="center", fontsize=6.8, color="#0E1522", weight="bold")
-        labels = [f"{b / 1024:.0f} KB" if isinstance(b, int) and b >= 1024 else str(b) for b in buckets]
+                    ax.text(j, i, f"{grid[i, j]:.0f}%" + (f"\n{notes[i][j].capitalize()}" if grid[i, j] < 100 else ""),
+                            ha="center", va="center", fontsize=11, color=BG, weight="bold")
+        labels = [f"{b / 1024:.1f} KB".replace(".0 KB", " KB") if isinstance(b, int) else str(b).capitalize()
+                  for b in buckets]
         ax.set_xticks(range(len(buckets)), labels, rotation=0)
         ax.set_yticks(range(len(keys)), [f"{SHIP_NAME[s].rsplit(' ', 1)[0]}, {SRC_NAME[p]}" for s, p in keys])
         ax.grid(False)
-        ax.set_title(f"fields intact, {title}", loc="left", fontsize=11)
-    axes[0].set_xlabel("message size written (bytes)")
-    axes[1].set_xlabel("message content")
+        ax.set_title(f"Fields intact, {title}", loc="left", fontsize=13)
+    axes[0].set_xlabel("Message size written")
+    axes[1].set_xlabel("Message content")
     axes[1].set_yticklabels([])
-    fig.suptitle("Field fidelity: the rsyslog path cut messages above 8 KB and escaped every newline and tab; "
-                 "journald kept them", x=0.01, ha="left", fontsize=12.5, weight="bold")
+    def worst_at(data, src, bucket):
+        vals = []
+        for sh in SHIPPERS:
+            c = data.get((sh, src), {}).get(bucket)
+            if c:
+                vals.append(100 * c.get("intact", 0) / sum(c.values()))
+        return min(vals) if vals else float("nan")
+
+    fig.suptitle(f"Field fidelity: at most {worst_at(sizes, 'syslog', 65536):.0f}% of 64 KB canaries arrived intact "
+                 f"through rsyslog against {worst_at(sizes, 'journald', 65536):.0f}% through journald; multiline "
+                 f"canaries {worst_at(kinds, 'syslog', 'multiline'):.0f}% against "
+                 f"{worst_at(kinds, 'journald', 'multiline'):.0f}%", x=0.01, ha="left")
     fig.tight_layout()
     return save(fig, "fidelity.png")
 
@@ -387,7 +413,7 @@ def _timeline(ax, cond: str):
     led = read_gz_csv(d / "ledger.csv.gz")
     n = {src: sum(1 for r in led if r["src"] == src) for src in SRCS}
     sent_t = np.sort(np.array([(int(r["ts_wall_ns"]) - t0) / 1e9 for r in led if r["src"] == "syslog"]))
-    ax.plot(sent_t, np.arange(1, len(sent_t) + 1) / len(sent_t) * 100, color=MUTED, lw=1.2, label="written")
+    ax.plot(sent_t, np.arange(1, len(sent_t) + 1) / len(sent_t) * 100, color=MUTED, lw=1.4, label="Written")
     first = {}
     for a in read_gz_csv(d / "arrivals.csv.gz"):
         k = (a["shipper"], a["src"], a["seq"])
@@ -402,12 +428,13 @@ def _timeline(ax, cond: str):
                 continue
             xmax = max(xmax, t[-1])
             ax.plot(np.concatenate([t, [t[-1] + 5]]), np.concatenate([np.arange(1, len(t) + 1), [len(t)]]) / n[src]
-                    * 100, ls, color=SHIP_COLOR[sh], lw=1.5)
+                    * 100, ls, color=SHIP_COLOR[sh], lw=1.8)
     for s, e, _a in _faults_windows(meta):
-        ax.axvspan(s, e, color=RED, alpha=0.16, lw=0)
+        ax.axvspan(s, e, color=GRID, lw=0, zorder=0)
+        ax.axvline(s, color=RED, lw=1.2)
     ax.set_xlim(0, xmax * 1.03)
     ax.set_ylim(0, 103)
-    ax.set_title(f"{SHORT.get(cond, cond)} (run {meta['run'][:6]})", loc="left", fontsize=10)
+    ax.set_title(f"{SHORT.get(cond, cond)} (run {meta['run'][:6]})", loc="left", fontsize=13)
     return True
 
 
@@ -417,26 +444,26 @@ def fig_timelines() -> str:
                                         "burst_4k"])
     cols = 3
     rws = (len(conds) + cols - 1) // cols
-    fig, axes = plt.subplots(rws, cols, figsize=(15, 3.6 * rws), squeeze=False)
+    fig, axes = plt.subplots(rws, cols, figsize=(17, 4.4 * rws), squeeze=False)
     for ax, c in zip(axes.flat, conds, strict=False):
         _timeline(ax, c)
     for ax in list(axes.flat)[len(conds):]:
         ax.axis("off")
     for ax in axes[:, 0]:
-        ax.set_ylabel("% of canaries indexed")
+        ax.set_ylabel("Canaries indexed (%)")
     for ax in axes[-1, :]:
-        ax.set_xlabel("seconds since the writer started")
+        ax.set_xlabel("Seconds since the writer started")
     from matplotlib.lines import Line2D
 
     handles = [Line2D([], [], color=SHIP_COLOR[s], lw=2, label=SHIP_NAME[s]) for s in SHIPPERS] + [
-        Line2D([], [], color=FG, ls="-", label="rsyslog file path"),
-        Line2D([], [], color=FG, ls="--", label="journald path"),
-        Line2D([], [], color=MUTED, label="written on the host"),
-        matplotlib.patches.Patch(color=RED, alpha=0.3, label="fault active")]
-    fig.legend(handles=handles, loc="lower center", ncol=8, fontsize=8.5, bbox_to_anchor=(0.5, -0.01))
+        Line2D([], [], color=FG, ls="-", label="File path (rsyslog)"),
+        Line2D([], [], color=FG, ls="--", label="Journal path (journald)"),
+        Line2D([], [], color=MUTED, label="Written on the host"),
+        matplotlib.patches.Patch(color=GRID, label="Fault active (red line: start)")]
+    fig.legend(handles=handles, loc="lower center", ncol=4, bbox_to_anchor=(0.5, -0.04))
     fig.suptitle("Timelines: a line that ends below 100% never caught up; the gap is lost canaries",
-                 x=0.01, ha="left", fontsize=13, weight="bold")
-    fig.tight_layout(rect=(0, 0.03, 1, 1))
+                 x=0.01, ha="left")
+    fig.tight_layout(rect=(0, 0.05, 1, 1))
     return save(fig, "timelines.png")
 
 
@@ -444,7 +471,8 @@ def fig_clock() -> str:
     conds = present(load_conditions(), ["clock_fwd_2h", "clock_back_10m"])
     if not conds:
         raise FileNotFoundError("clock")
-    fig, axes = plt.subplots(1, len(conds), figsize=(7 * len(conds), 4.8), squeeze=False)
+    fig, axes = plt.subplots(1, len(conds), figsize=(8.5 * len(conds), 6), squeeze=False)
+    follow: dict = {}
     for ax, cond in zip(axes[0], conds, strict=True):
         d = run_dirs(cond)[0]
         meta = json.loads((d / "meta.json").read_text())
@@ -461,15 +489,25 @@ def fig_clock() -> str:
                 p = np.array(sorted(pts[(sh, src)]))
                 if len(p):
                     ax.plot(p[::7, 0], p[::7, 1] + (i - 1) * 1.5 * (1 if "fwd" in cond else 0.1), mk, ms=2.5,
-                            color=SHIP_COLOR[sh], alpha=0.8, label=f"{SHIP_NAME[sh]}, {SRC_NAME[src]}")
-        for s, e, _ in _faults_windows(meta):
-            ax.axvspan(s, e, color=RED, alpha=0.08, lw=0)
-        ax.set_xlabel("seconds since the writer started (true time)")
-        ax.set_ylabel("@timestamp minus true write time (minutes)")
-        ax.set_title(SHORT[cond] + " on the host", loc="left", fontsize=11)
-    axes[0][0].legend(fontsize=7.5, loc="center left")
-    fig.suptitle("Clock jumps: the SIEM's event time followed the host clock on every path except Vector's "
-                 "journald reader", x=0.01, ha="left", fontsize=12.5, weight="bold")
+                            color=SHIP_COLOR[sh], label=f"{SHIP_NAME[sh]}, {SRC_NAME[src]}")
+        wins = _faults_windows(meta)
+        if len(wins) >= 2:  # the jump is in force between the first and the second clock action
+            lo_t, hi_t = wins[0][1] + 2, wins[1][0] - 2
+            offset_min = meta["faults"][0]["kwargs"]["offset_s"] / 60
+            for k, p in pts.items():
+                inside = [d for t, d in p if lo_t <= t <= hi_t]
+                ok = bool(inside) and np.median(inside) / offset_min > 0.5
+                follow[k] = follow.get(k, True) and ok
+            ax.axvspan(wins[0][0], wins[1][0], color=GRID, lw=0, zorder=0)
+        ax.set_xlabel("Seconds since the writer started (true time)")
+        ax.set_ylabel("Event time in the SIEM minus true write time (minutes)")
+        ax.set_title(SHORT[cond] + " on the host", loc="left", fontsize=13)
+    axes[0][0].legend(fontsize=10.5, loc="center left")
+    followed = sorted(k for k, v in follow.items() if v)
+    missed = [f"{SHIP_NAME[sh].rsplit(' ', 1)[0]} on {SRC_NAME[src]}" for sh, src in SHIPPERS_SRCS
+              if (sh, src) in follow and not follow[(sh, src)]]
+    fig.suptitle(f"Clock jumps: the SIEM's event time followed the host clock on {len(followed)} of {len(follow)} "
+                 "shipper and path pairs" + (f"; not on {', '.join(missed)}" if missed else ""), x=0.01, ha="left")
     fig.tight_layout()
     return save(fig, "clock_skew.png")
 
@@ -478,7 +516,7 @@ def fig_bursts() -> str:
     rows = load_conditions()
     cm = cond_map(rows)
     conds = present(rows, ["baseline", "burst_1k", "burst_4k", "burst_max"])
-    fig, axes = plt.subplots(1, 2, figsize=(13, 4.8), sharey=True)
+    fig, axes = plt.subplots(1, 2, figsize=(15, 5.6), sharey=True)
     x = np.arange(len(conds))
     w = 0.22
     for ax, src in zip(axes, SRCS, strict=True):
@@ -486,21 +524,24 @@ def fig_bursts() -> str:
         for c in conds:
             r = cm.get((c, "filebeat", src))
             disk.append(100 * (fnum(r["lost_before_disk_total"]) or 0) / fnum(r["sent_total"]) if r else 0)
-        b = ax.bar(x - 1.5 * w, disk, w, color=RED, label="never written to disk by the host")
-        bar_labels(ax, b, disk, "{:.1f}", pad=0.8, size=7)
+        b = ax.bar(x - 1.5 * w, disk, w, color=RED, label="Never written to disk by the host")
+        bar_labels(ax, b, disk, "{:.0f}", pad=0.8)
         for i, sh in enumerate(SHIPPERS):
             vals = [fnum(cm[(c, sh, src)]["loss_mean_pct"]) if (c, sh, src) in cm else 0 for c in conds]
-            b = ax.bar(x + (i - 0.5) * w, vals, w, color=SHIP_COLOR[sh], label=f"missing in ES via {SHIP_NAME[sh]}")
-            bar_labels(ax, b, vals, "{:.1f}", pad=0.8, size=7)
+            b = ax.bar(x + (i - 0.5) * w, vals, w, color=SHIP_COLOR[sh], label=f"Missing in ES via {SHIP_NAME[sh]}")
+            bar_labels(ax, b, vals, "{:.0f}", pad=0.8)
         ax.set_xticks(x, [SHORT[c] for c in conds])
-        ax.set_title(f"{SRC_NAME[src]} path", loc="left", fontsize=11)
+        ax.set_title(SRC_TITLE[src], loc="left", fontsize=13)
         ax.set_ylim(0, 105)
-    axes[0].set_ylabel("canaries lost, % of sent (mean of repeats)")
-    axes[1].legend(fontsize=8, loc="upper left")
-    r = cm.get(("burst_4k", "filebeat", "journald"))
-    lead = (f"journald dropped {100 * fnum(r['lost_before_disk_total']) / fnum(r['sent_total']):.0f}% of a "
-            "20,000-event burst before any shipper saw it" if r else "Bursts")
-    fig.suptitle(f"Bursts: {lead}", x=0.01, ha="left", fontsize=13, weight="bold")
+    axes[0].set_ylabel("Canaries lost, % of sent (mean of repeats)")
+    axes[1].legend(loc="upper left")
+    host = max((100 * (fnum(cm[(c, "filebeat", p)]["lost_before_disk_total"]) or 0) / fnum(cm[(c, "filebeat", p)]
+                ["sent_total"]) for c in conds for p in SRCS if (c, "filebeat", p) in cm), default=0)
+    worst = max((r for r in rows if r["condition"] in conds), key=lambda r: fnum(r["loss_mean_pct"]) or 0)
+    lead = (f"the host wrote {'every' if host == 0 else f'all but {host:.1f}% of'} canary to disk, but "
+            f"{SHIP_NAME[worst['shipper']]} lost {fnum(worst['loss_mean_pct']):.0f}% ({SRC_NAME[worst['src']]}, "
+            f"{SHORT[worst['condition']]})")
+    fig.suptitle(f"Bursts: {lead}", x=0.01, ha="left")
     fig.tight_layout()
     return save(fig, "bursts.png")
 
@@ -508,7 +549,7 @@ def fig_bursts() -> str:
 def fig_alerts() -> str:
     runs = load_runs()
     lossy = [r for r in runs if int(r["lost"]) > 0]
-    comps = ["shipper log", "host daemon log", "shipper counter", "SIEM"]
+    comps = ["Shipper log", "Host daemon log", "Shipper counter", "Shipper crashed\n(restart count)", "SIEM"]
     keys = sorted({(r["condition"], r["shipper"], r["src"]) for r in lossy},
                   key=lambda k: (list(ALL).index(k[0]), SHIPPERS.index(k[1]), SRCS.index(k[2])))
     if not keys:
@@ -520,25 +561,26 @@ def fig_alerts() -> str:
         grid[i, 0] = sum(r["alert_shipper"] == "loss" for r in rs) / n
         grid[i, 1] = sum(r["alert_host"] == "loss" for r in rs) / n
         grid[i, 2] = sum(fnum(r["shipper_counted_loss"]) > 0 for r in rs) / n
-        grid[i, 3] = 0.0  # nothing in the default pipeline sends a loss signal to Elasticsearch
+        grid[i, 3] = sum((fnum(r["shipper_crashes"]) or 0) > 0 for r in rs) / n
+        grid[i, 4] = 0.0  # nothing in the default pipeline sends a loss signal to Elasticsearch
     from matplotlib.colors import LinearSegmentedColormap
 
-    cmap = LinearSegmentedColormap.from_list("al", [RED, AMBER, GREEN])
-    fig, ax = plt.subplots(figsize=(8.5, 0.32 * len(keys) + 2))
+    cmap = LinearSegmentedColormap.from_list("al", [RED, YELLOW, GREEN])
+    fig, ax = plt.subplots(figsize=(11, 0.45 * len(keys) + 2.4))
     ax.imshow(grid, aspect="auto", cmap=cmap, vmin=0, vmax=1)
     for i in range(len(keys)):
         for j in range(len(comps)):
-            ax.text(j, i, f"{grid[i, j] * 100:.0f}%", ha="center", va="center", fontsize=7, color="#0E1522",
+            ax.text(j, i, f"{grid[i, j] * 100:.0f}%", ha="center", va="center", fontsize=11, color=BG,
                     weight="bold")
     ax.set_xticks(range(len(comps)), comps)
     ax.xaxis.tick_top()
     ax.set_yticks(range(len(keys)), [f"{SHORT.get(c, c)} | {SHIP_NAME[s].rsplit(' ', 1)[0]} | {SRC_NAME[p]}"
-                                     for c, s, p in keys], fontsize=7.5)
+                                     for c, s, p in keys])
     ax.grid(False)
     silent = sum(r["silent"] == "True" for r in lossy)
-    ax.set_title(f"Who said anything? {silent} of {len(lossy)} lossy runs had no log line about lost events "
-                 "anywhere;\ncells: share of lossy runs where that component reported the loss", loc="left",
-                 fontsize=11.5, pad=28)
+    ax.set_title(f"Who said anything? In {silent} of {len(lossy)} lossy streams no log line anywhere mentioned "
+                 "lost events;\ncells: share of lossy runs where each signal appeared", loc="left",
+                 pad=36)
     return save(fig, "alerts.png")
 
 
@@ -549,25 +591,25 @@ def fig_tuned() -> str:
     base = [c for c in base if c + "_tuned" in {r["condition"] for r in rows}]
     if not base:
         raise FileNotFoundError("tuned")
-    fig, axes = plt.subplots(1, 3, figsize=(15, 4.6), sharey=True)
+    fig, axes = plt.subplots(1, 3, figsize=(18, 6), sharey=True)
     x = np.arange(len(base))
     w = 0.2
     for ax, sh in zip(axes, SHIPPERS, strict=True):
-        for i, (suffix, src, alpha) in enumerate((("", "syslog", 1), ("_tuned", "syslog", 1),
-                                                  ("", "journald", 0.55), ("_tuned", "journald", 0.55))):
+        for i, (suffix, src) in enumerate((("", "syslog"), ("_tuned", "syslog"), ("", "journald"),
+                                           ("_tuned", "journald"))):
             vals = [fnum(cm[(c + suffix, sh, src)]["loss_mean_pct"]) if (c + suffix, sh, src) in cm else 0
                     for c in base]
             color = RED if not suffix else GREEN
-            b = ax.bar(x + (i - 1.5) * w, vals, w, color=color, alpha=alpha,
-                       label=f"{'default' if not suffix else 'tuned'}, {SRC_NAME[src]}")
-            bar_labels(ax, b, vals, "{:.1f}", pad=0.8, size=6.5)
+            b = ax.bar(x + (i - 1.5) * w, vals, w, color=color, hatch=HATCH[src], edgecolor=BG, lw=0,
+                       label=f"{'Default' if not suffix else 'Tuned'}, {SRC_NAME[src]}")
+            bar_labels(ax, b, vals, "{:.0f}", pad=0.8)
         ax.set_xticks(x, [SHORT[c] for c in base], rotation=25, ha="right")
-        ax.set_title(SHIP_NAME[sh], loc="left", fontsize=11)
+        ax.set_title(SHIP_NAME[sh], loc="left", fontsize=13)
         ax.set_ylim(0, 105)
-    axes[0].set_ylabel("canaries lost, % of sent (mean of repeats)")
-    axes[0].legend(fontsize=7.5)
+    axes[0].set_ylabel("Canaries lost, % of sent (mean of repeats)")
+    axes[0].legend(fontsize=10.5)
     fig.suptitle("Default against tuned shipper settings (offset DB, unlimited retries, disk buffers, "
-                 "end-to-end acknowledgements)", x=0.01, ha="left", fontsize=12.5, weight="bold")
+                 "end-to-end acknowledgements)", x=0.01, ha="left")
     fig.tight_layout()
     return save(fig, "default_vs_tuned.png")
 
@@ -576,7 +618,7 @@ def fig_blind() -> str:
     rows = load_conditions()
     cm = cond_map(rows)
     conds = present(rows, FAULT_ORDER + ["clock_fwd_2h", "clock_back_10m"])
-    fig, ax = plt.subplots(figsize=(13, 4.8))
+    fig, ax = plt.subplots(figsize=(17, 6.2))
     x = np.arange(len(conds))
     w = 0.13
     worst = (0, None)
@@ -585,18 +627,19 @@ def fig_blind() -> str:
         blind = [fnum(cm[(c, sh, src)]["blind_mean_pct"]) or 0 if (c, sh, src) in cm else 0 for c in conds]
         late = [max(0.0, b - lo) for b, lo in zip(blind, lost, strict=True)]
         xx = x + (i - 2.5) * w
-        ax.bar(xx, lost, w, color=SHIP_COLOR[sh], alpha=1 if src == "syslog" else 0.55)
-        ax.bar(xx, late, w, bottom=lost, color=RED, alpha=0.85 if src == "syslog" else 0.5)
+        ax.bar(xx, lost, w, color=SHIP_COLOR[sh], hatch=HATCH[src], edgecolor=BG, lw=0)
+        ax.bar(xx, late, w, bottom=lost, color=RED, hatch=HATCH[src], edgecolor=BG, lw=0)
         for c, b in zip(conds, blind, strict=True):
             if b > worst[0]:
                 worst = (b, c)
     ax.set_xticks(x, [SHORT.get(c, c) for c in conds], rotation=35, ha="right")
-    ax.set_ylabel("% of sent canaries a 5-minute rule never sees")
+    ax.set_ylabel("Sent canaries a 5 minute rule never sees (%)")
     from matplotlib.patches import Patch
 
-    ax.legend(handles=[Patch(color=SHIP_COLOR[s], label=f"lost ({SHIP_NAME[s]})") for s in SHIPPERS] +
-              [Patch(color=RED, label="arrived, but too late or stamped outside the rule's window")],
-              fontsize=8, loc="upper left")
+    ax.legend(handles=[Patch(color=SHIP_COLOR[s], label=f"Lost ({SHIP_NAME[s]})") for s in SHIPPERS] +
+              [Patch(color=RED, label="Arrived, but too late or stamped outside the rule's window"),
+               Patch(facecolor=MUTED, hatch="///", edgecolor=BG, label="Hatched: journal path")],
+              fontsize=10.5, loc="upper left")
     if worst[1]:
         ax.set_title(f"Blind spots for a scheduled rule (every 5 min, looking back 6 min): up to {worst[0]:.0f}% "
                      f"under {SHORT.get(worst[1], worst[1])}", loc="left")

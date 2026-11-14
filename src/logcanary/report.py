@@ -18,7 +18,7 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 from logcanary import metrics
-from logcanary.conditions import ALL, MATRIX, TUNED
+from logcanary.conditions import ALL, JAMMY, MATRIX, TUNED
 
 RESULTS = Path(__file__).resolve().parents[2] / "results"
 RUNS = RESULTS / "runs"
@@ -26,12 +26,13 @@ SHIPPERS = ("filebeat", "fluentbit", "vector")
 SRCS = ("syslog", "journald")
 NAMES = {"filebeat": "Filebeat 8.19.25", "fluentbit": "Fluent Bit 5.1.5", "vector": "Vector 0.61.0",
          "syslog": "rsyslog file", "journald": "journald"}
-ORDER = [c.name for c in MATRIX + TUNED]
+ORDER = [c.name for c in MATRIX + TUNED + JAMMY]
 RUN_COLS = ["condition", "group", "repeat", "run", "shipper", "src", "sent", "arrived", "docs", "lost", "loss_pct",
             "duplicates", "dup_pct", "lat_p50_ms", "lat_p95_ms", "lat_p99_ms", "lat_max_ms", "intact_pct",
             "exact_pct", "recoverable_pct", "truncated", "damaged", "skew_p50_ms", "skew_max_abs_ms",
             "late_5m_pct", "missed_rule_pct_of_arrived", "blind_pct", "send_errors", "on_disk",
-            "lost_before_disk", "gap_rule_fires", "alert_shipper", "alert_host", "shipper_counted_loss", "silent",
+            "lost_before_disk", "gap_rule_fires", "alert_shipper", "alert_host", "shipper_counted_loss",
+            "shipper_crashes", "silent",
             "late_after_settle"]
 
 
@@ -256,11 +257,20 @@ def main(argv: list[str] | None = None) -> int:
         for name, text in files.items():
             if (RESULTS / name).read_text() != text:
                 bad.append(f"results/{name}")
+        from logcanary.summary import build as build_summary
+
+        if json.loads((RESULTS / "summary.json").read_text()) != json.loads(json.dumps(build_summary())):
+            bad.append("results/summary.json")
         if bad:
             print("out of date:\n  " + "\n  ".join(bad))
             return 1
         print(f"ok: {len(run_dirs())} runs and {len(files)} tables follow from the raw files")
         return 0
+    from logcanary.runner import summarise
+
+    for d in run_dirs():  # every result.json is rebuilt from the run's raw files
+        summarise(d)
+    files = build()
     for name, text in files.items():
         (RESULTS / name).write_text(text)
     print(f"wrote {', '.join(files)} from {len(run_dirs())} runs")

@@ -23,7 +23,7 @@ services:
     networks: [lcnet]
   host:
     # built by `make lab` (docker build --network host lab/host)
-    image: logcanary-host:noble
+    image: logcanary-host:${HOST_TAG:-noble}
     container_name: lc-host
     init: true
     hostname: lab-host
@@ -35,6 +35,7 @@ services:
   filebeat:
     image: elastic/filebeat:8.19.25@sha256:3431da8fc454833065bbf3bffc9e7c180640fdb9703744aad947edee29672257
     container_name: lc-filebeat
+    restart: on-failure  # a crashed or OOM-killed agent comes back, as under systemd; docker kill does not trigger it
     hostname: lab-host  # as if installed on the host
     user: root
     command: ["filebeat", "-e", "--strict.perms=false", "-c", "/etc/lc/filebeat.yml"]
@@ -48,6 +49,7 @@ services:
   fluentbit:
     image: fluent/fluent-bit:5.1.5@sha256:2740f387f6e68fab66d28e4fa6a853387b9cab6ffb4cb78958f69bba4eb0e7b4
     container_name: lc-fluentbit
+    restart: on-failure  # a crashed or OOM-killed agent comes back, as under systemd; docker kill does not trigger it
     hostname: lab-host  # as if installed on the host
     command: ["/fluent-bit/bin/fluent-bit", "-c", "/etc/lc/fluent-bit.conf"]
     mem_limit: 192m
@@ -61,6 +63,7 @@ services:
   vector:
     image: timberio/vector:0.61.0-debian@sha256:f6c23b5a7e16fb2838d33619ef7acf4bad2289a7cf22bc90efc2371f520c4ea2
     container_name: lc-vector
+    restart: on-failure  # a crashed or OOM-killed agent comes back, as under systemd; docker kill does not trigger it
     hostname: lab-host  # as if installed on the host
     command: ["--config", "/etc/lc/vector.yaml"]
     mem_limit: 256m

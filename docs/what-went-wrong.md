@@ -54,5 +54,18 @@ Every miss, dead end and limit met while building this, and what each does to th
 10. **The matrix was restarted once**, during the baseline, to load the finalize-and-prune code.
     The run in progress at that moment was discarded and repeated; the resume logic deletes any
     run directory without a result.
-11. **Prior-art search ran out of quota** before I could check whether Elastic, Splunk or Cribl
+11. **Vector was OOM-killed in every "as fast as possible" burst, and stayed dead.** In the first
+    three `burst_max` runs (about 18,000 to 21,000 canaries a second on each path) Vector exceeded
+    its 256 MB limit and the kernel killed it. The shipper containers had no restart policy, so it
+    stayed down until the next run's preflight, which then recreated all three shippers (and reset
+    the host logs) instead of just starting the dead one. Measured loss for Vector in those runs
+    was 76% and 27% (file / journal, run 1) and up to 50% on journald in run 2: a mix of the
+    crash and of nobody restarting it. A real host restarts a crashed agent (systemd `Restart=`,
+    a Kubernetes DaemonSet), so I added `restart: on-failure` to the shippers (Docker does not
+    apply it to a deliberate `docker kill`, so the crash condition keeps its 10 s downtime),
+    changed preflight to restart a dead shipper rather than recreate it, and reran `burst_max`.
+    The three discarded runs are kept, unchanged, in
+    `results/discarded/burst_max_no_restart_policy/` and are not in any table. Every run now records
+    each shipper's restart count before and after (`restarts_before`, `states` in `meta.json`).
+12. **Prior-art search ran out of quota** before I could check whether Elastic, Splunk or Cribl
     offer a free source-side canary feature. `docs/prior_art.md` says so instead of guessing.

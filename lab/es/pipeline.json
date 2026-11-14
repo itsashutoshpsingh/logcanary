@@ -7,8 +7,10 @@
     {"set": {"field": "lc_shipper_ts", "copy_from": "@timestamp", "ignore_empty_value": true}},
     {"set": {"field": "lc_shipper_ts", "copy_from": "timestamp", "ignore_empty_value": true, "if": "ctx.lc_shipper_ts == null"}},
     {"grok": {"field": "message", "ignore_missing": true, "ignore_failure": true,
-              "patterns": ["^%{TIMESTAMP_ISO8601:syslog_ts} %{SYSLOGHOST:syslog_host} %{DATA:syslog_prog}(?:\\[%{POSINT:syslog_pid}\\])?: "]}},
-    {"date": {"field": "syslog_ts", "target_field": "@timestamp", "formats": ["ISO8601"],
+              "patterns": ["^%{TIMESTAMP_ISO8601:syslog_ts} %{SYSLOGHOST:syslog_host} %{DATA:syslog_prog}(?:\\[%{POSINT:syslog_pid}\\])?: ",
+                           "^%{SYSLOGTIMESTAMP:syslog_ts} %{SYSLOGHOST:syslog_host} %{DATA:syslog_prog}(?:\\[%{POSINT:syslog_pid}\\])?: "]}},
+    {"date": {"field": "syslog_ts", "target_field": "@timestamp", "formats": ["ISO8601", "MMM  d HH:mm:ss", "MMM d HH:mm:ss"],
+              "timezone": "UTC",
               "output_format": "yyyy-MM-dd'T'HH:mm:ss.SSSSSSXXX", "if": "ctx.syslog_ts != null", "ignore_failure": true}},
     {"set": {"field": "@timestamp", "copy_from": "lc_shipper_ts", "if": "ctx['@timestamp'] == null", "ignore_empty_value": true}}
   ]

@@ -22,6 +22,7 @@ class Condition:
     shipper_set: str = "default"
     settle_s: int = 20
     group: str = "fault"
+    host: str = "noble"  # host image tag: noble = Ubuntu 24.04, jammy = Ubuntu 22.04
     extra: dict = field(default_factory=dict)
 
 
@@ -81,4 +82,13 @@ TUNED = [
     if c.name in ("shipper_restart", "shipper_crash", "partition_60", "es_down_120", "disk_pressure")
 ]
 
-ALL = {c.name: c for c in MATRIX + TUNED}
+# Second distribution: Ubuntu 22.04 (rsyslog 8.2112, systemd 249, traditional syslog timestamps).
+JAMMY = [
+    Condition(**{**c.__dict__, "name": "jammy_" + c.name, "title": c.title + " (Ubuntu 22.04 host)",
+                 "host": "jammy", "repeats": 3, "group": "jammy"})
+    for c in MATRIX
+    if c.name in ("baseline", "burst_4k", "shipper_restart", "partition_60", "sizes", "mangling", "clock_back_10m",
+                  "daemon_crash")
+]
+
+ALL = {c.name: c for c in MATRIX + TUNED + JAMMY}
