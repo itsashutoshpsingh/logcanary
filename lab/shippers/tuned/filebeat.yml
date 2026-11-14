@@ -1,0 +1,23 @@
+# Filebeat 8.19.25, tuned set: identical to the default set. Filebeat already keeps its registry
+# on disk and retries without limit, so there was nothing reliability-related to change.
+filebeat.inputs:
+  - type: filestream
+    id: host-syslog
+    paths: [/var/log/syslog]
+  - type: journald
+    id: host-journal
+    paths: [/var/log/journal]
+
+output.elasticsearch:
+  hosts: ["http://es:9200"]
+  index: "lc-filebeat"
+
+setup.template.enabled: false
+setup.ilm.enabled: false
+
+# Local stats endpoint, read by the harness to see what Filebeat itself counted.
+http.enabled: true
+http.host: 0.0.0.0
+http.port: 5066
+logging.level: info
+logging.to_stderr: true

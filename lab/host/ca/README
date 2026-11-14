@@ -1,0 +1,1 @@
+Optional: put a CA bundle here as ca.crt if your network re-signs TLS. Not committed.

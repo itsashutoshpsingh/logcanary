@@ -1,0 +1,25 @@
+# Vector 0.61.0, default behaviour: file and journald sources into the elasticsearch sink.
+# Buffers (memory, 500 events, block), retries and acknowledgements (off) are the shipped defaults.
+data_dir: /var/lib/vector
+sources:
+  syslog_file:
+    type: file
+    include: [/var/log/syslog]
+  journal:
+    type: journald
+    journal_directory: /var/log/journal
+  self_metrics:
+    type: internal_metrics
+sinks:
+  es:
+    type: elasticsearch
+    inputs: [syslog_file, journal]
+    endpoints: ["http://es:9200"]
+    api_version: v8
+    mode: bulk
+    bulk:
+      index: lc-vector
+  metrics:
+    type: prometheus_exporter
+    inputs: [self_metrics]
+    address: 0.0.0.0:9598

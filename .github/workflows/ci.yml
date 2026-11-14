@@ -1,0 +1,16 @@
+name: tests
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.11.32"
+      - run: uv sync --locked
+      - run: uv run ruff check src tests
+      - run: uv run pytest -q
+      # Recompute every committed run's result from its committed raw files and check the
+      # published tables and summary still follow from them.
+      - run: uv run logcanary report --check

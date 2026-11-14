@@ -1,0 +1,23 @@
+# Filebeat 8.19.25, default behaviour: only what is needed to read the two OS log paths and
+# write to one index. Queue, retry and registry settings are the shipped defaults.
+filebeat.inputs:
+  - type: filestream
+    id: host-syslog
+    paths: [/var/log/syslog]
+  - type: journald
+    id: host-journal
+    paths: [/var/log/journal]
+
+output.elasticsearch:
+  hosts: ["http://es:9200"]
+  index: "lc-filebeat"
+
+setup.template.enabled: false
+setup.ilm.enabled: false
+
+# Local stats endpoint, read by the harness to see what Filebeat itself counted.
+http.enabled: true
+http.host: 0.0.0.0
+http.port: 5066
+logging.level: info
+logging.to_stderr: true

@@ -1,0 +1,29 @@
+# Fields an analyst needs from each canary, per shipper and log path, with the value they must
+# hold. A canary is "fields intact" when every field below has its value, @timestamp parses,
+# and the message is byte-for-byte what was written (message.check == "exact").
+# The syslog_* fields come from the Elasticsearch ingest pipeline (lab/es/pipeline.json) parsing
+# the syslog line, so they are the same for every shipper on the file path.
+
+[filebeat.syslog]
+"host.name" = "lab-host"
+syslog_prog = "logcanary"
+
+[filebeat.journald]
+"host.hostname" = "lab-host"
+"log.syslog.appname" = "logcanary"
+
+[fluentbit.syslog]
+syslog_host = "lab-host"
+syslog_prog = "logcanary"
+
+[fluentbit.journald]
+_HOSTNAME = "lab-host"
+SYSLOG_IDENTIFIER = "logcanary"
+
+[vector.syslog]
+syslog_host = "lab-host"
+syslog_prog = "logcanary"
+
+[vector.journald]
+host = "lab-host"
+SYSLOG_IDENTIFIER = "logcanary"

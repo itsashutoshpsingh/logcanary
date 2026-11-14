@@ -1,0 +1,40 @@
+[project]
+name = "logcanary"
+version = "0.1.0"
+description = "Measures whether logs written on a host reach the SIEM: loss, delay, duplicates, field damage and clock skew, against ground truth kept at the source."
+readme = "README.md"
+license = "MIT"
+authors = [{ name = "Ashutosh Pal Singh" }]
+requires-python = ">=3.12"
+dependencies = [
+    "elasticsearch==8.19.3",
+    "matplotlib==3.11.2",
+    "numpy==2.5.4",
+]
+
+[project.scripts]
+logcanary = "logcanary.cli:main"
+
+[dependency-groups]
+dev = [
+    "hypothesis==6.170.15",
+    "pytest==9.2.0",
+    "ruff==0.17.5",
+]
+
+[build-system]
+requires = ["hatchling==1.27.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/logcanary"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,27 @@
+#!/bin/sh
+# lc-daemon start|kill|hup|status journald|rsyslog
+# Both daemons run under libfaketime so the clock-skew fault can move the host clock as they see it.
+set -eu
+action=$1; name=$2
+export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/faketime/libfaketimeMT.so.1
+export FAKETIME_TIMESTAMP_FILE=/run/logcanary/faketime FAKETIME_CACHE_DURATION=1 FAKETIME_DONT_FAKE_MONOTONIC=1
+case "$name" in
+  journald) bin=/usr/lib/systemd/systemd-journald; pidf=/run/logcanary/journald.pid ;;
+  rsyslog)  bin=rsyslogd; pidf=/run/rsyslogd.pid ;;
+  *) echo "unknown daemon $name" >&2; exit 2 ;;
+esac
+case "$action" in
+  start)
+    if [ "$name" = journald ]; then
+      # No systemd here to run systemd-journal-flush. This marker is what that unit leaves behind;
+      # with it journald writes straight to /var/log/journal, as on a booted host.
+      touch /run/systemd/journal/flushed
+      $bin >>/var/lib/logcanary/journald.stderr 2>&1 &
+      echo $! > "$pidf"
+    else
+      rm -f "$pidf"; $bin -i "$pidf"
+    fi ;;
+  kill) kill -9 "$(cat "$pidf")"; rm -f "$pidf" ;;
+  hup)  kill -HUP "$(cat "$pidf")" ;;
+  status) [ -f "$pidf" ] && kill -0 "$(cat "$pidf")" && echo up ;;
+esac

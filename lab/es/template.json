@@ -1,0 +1,20 @@
+{
+  "index_patterns": ["lc-*"],
+  "priority": 500,
+  "template": {
+    "settings": {"number_of_shards": 1, "number_of_replicas": 0, "refresh_interval": "1s",
+                 "index.default_pipeline": "lc-ingest", "index.mapping.total_fields.limit": 5000},
+    "mappings": {
+      "dynamic_templates": [
+        {"strings": {"match_mapping_type": "string", "mapping": {"type": "keyword", "ignore_above": 2048}}}
+      ],
+      "properties": {
+        "@timestamp": {"type": "date_nanos"},
+        "event": {"properties": {"ingested": {"type": "date_nanos"}}},
+        "lc_shipper_ts": {"type": "date_nanos"},
+        "syslog_ts": {"type": "keyword"},
+        "message": {"type": "text"}
+      }
+    }
+  }
+}
