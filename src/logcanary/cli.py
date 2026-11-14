@@ -45,7 +45,8 @@ def main(argv: list[str] | None = None) -> int:
     m = sub.add_parser("matrix")
     m.add_argument("--group")
     sub.add_parser("reconcile")
-    sub.add_parser("report")
+    rp = sub.add_parser("report")
+    rp.add_argument("--check", action="store_true")
     sub.add_parser("figures")
     sub.add_parser("summary")
     sub.add_parser("list")
@@ -63,12 +64,13 @@ def main(argv: list[str] | None = None) -> int:
 
         runner.run_condition(ALL[a.cond], a.repeats)
     elif a.cmd == "matrix":
-        from logcanary import runner
+        from logcanary import report, runner
         from logcanary.conditions import MATRIX, TUNED
 
         for c in MATRIX + TUNED:
             if a.group is None or c.group == a.group:
                 runner.run_condition(c)
+                report.finalize_old()  # conditions whose last run is 15+ minutes old
     elif a.cmd == "reconcile":
         from logcanary import report
 
@@ -76,7 +78,7 @@ def main(argv: list[str] | None = None) -> int:
     elif a.cmd == "report":
         from logcanary import report
 
-        report.main()
+        return report.main(["--check"] if a.check else [])
     elif a.cmd == "figures":
         from logcanary import figures
 

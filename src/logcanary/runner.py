@@ -216,8 +216,8 @@ def _arrival_rows(rows: list[dict], shipper: str, src: str) -> list[dict]:
     return out
 
 
-def summarise(out: Path) -> dict:
-    """(Re)compute result.json for a run directory from its raw files."""
+def compute_result(out: Path) -> dict:
+    """Result for a run directory, computed only from its raw files."""
     meta = json.loads((out / "meta.json").read_text())
     comp = json.loads((out / "alerts.json").read_text())
     ledger = read_csv_gz(out / "ledger.csv.gz")
@@ -234,8 +234,13 @@ def summarise(out: Path) -> dict:
             m["shipper_counted_loss"] = alerts.counted_loss(shipper, d)
             m["silent"] = bool(m["lost"]) and "loss" not in (comp[shipper]["status"], comp[host_daemon]["status"])
             result[f"{shipper}/{src}"] = m
+    return result
+
+
+def summarise(out: Path) -> dict:
+    result = compute_result(out)
     (out / "result.json").write_text(json.dumps(result, indent=1))
-    return {k: v for k, v in result.items()}
+    return result
 
 
 def done_repeats(cond: Condition) -> int:
