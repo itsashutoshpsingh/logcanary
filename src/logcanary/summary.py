@@ -52,14 +52,14 @@ def build() -> dict:
             metrics.append({"label": label, "value": pct(f(r[key]))})
 
     metrics = [
-        {"label": f"Worst default loss ({SHIP[worst['shipper']]}, {ALL[worst['condition']].title.lower()})",
+        {"label": f"Worst default loss ({SHIP[worst['shipper']]}, {ALL[worst['condition']].title})",
          "value": pct(f(worst["loss_mean_pct"]))},
         {"label": "Lossy streams with no log line about the loss", "value": f"{len(silent)} of {len(lossy)}"},
     ]
     if tuned:
         tw = max(tuned, key=lambda r: f(r["loss_mean_pct"]))
         metrics.append({"label": f"Worst loss with tuned shippers ({SHIP[tw['shipper']]}, "
-                                 f"{ALL[tw['condition']].title.split(' (')[0].lower()})",
+                                 f"{ALL[tw['condition']].title.split(' (')[0]})",
                         "value": pct(f(tw["loss_mean_pct"]))})
     m("Fluent Bit default config, lost across a graceful restart", "shipper_restart", "fluentbit", "syslog")
     m("Lost on the file path when rsyslog was killed and restarted within 1 s", "daemon_crash", "filebeat", "syslog")
@@ -77,7 +77,7 @@ def build() -> dict:
     headline = (f"{sent:,} numbered canaries written through rsyslog and journald on an Ubuntu 24.04 host and "
                 f"counted again in Elasticsearch across {n_cond} conditions: default pipelines lost up to "
                 f"{pct(f(worst['loss_mean_pct']))} ({SHIP[worst['shipper']]}, "
-                f"{ALL[worst['condition']].title.lower()}), and {len(silent)} of {len(lossy)} lossy streams left no "
+                f"{ALL[worst['condition']].title}), and {len(silent)} of {len(lossy)} lossy streams left no "
                 "log line anywhere saying events were lost.")
 
     charts = [
