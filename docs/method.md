@@ -81,8 +81,9 @@ every 5 s. It stops when no shipper's count has moved for 20 s if every shipper 
 many documents as were sent, and for 90 s otherwise (longer than Filebeat's 60 s maximum retry
 backoff). The guide asks for 10 minutes of no new arrivals; 90 s is shorter, so after the whole
 matrix `logcanary reconcile` queries Elasticsearch again for every run. Results in this repository
-are from that final pass, which ran at least tens of minutes, and for early runs hours, after each
-run. Canaries that arrived between the settle point and the final pass are counted per run in
+are from that final pass, which ran at least 15 minutes after each run's writer finished (hours
+for early runs, six days for the runs left unfinalized when the first session stopped). Canaries
+that arrived between the settle point and the final pass are counted per run in
 `late_after_settle` (`results/runs.csv`).
 
 ## Metric definitions
@@ -122,7 +123,10 @@ How they are applied here ([`src/logcanary/metrics.py`](../src/logcanary/metrics
   always no: nothing in these default pipelines sends a loss signal to Elasticsearch, so an
   analyst looking only at the SIEM sees nothing in every case. The shippers' own drop counters
   (Filebeat `/stats`, Fluent Bit `/api/v1/metrics`, Vector `internal_metrics`) are read before and
-  after each run and reported as `shipper_counted_loss`.
+  after each run and reported as `shipper_counted_loss`. A shipper that crashed on its own (for
+  example killed for running out of memory) is restarted by Docker's `on-failure` policy, as
+  systemd or a Kubernetes DaemonSet would restart it; the number of such restarts per run is
+  `shipper_crashes`. Deliberate restarts and kills by the fault injector do not count.
 - **Lost before disk** = canaries in the ledger that never reached `/var/log/syslog*` or the
   journal, counted on the host after the run. These were lost by the host's own logging before any
   shipper could read them.
@@ -165,6 +169,10 @@ and end times in each run's `meta.json` ([`src/logcanary/faults.py`](../src/logc
 5. Fluent Bit's `systemd` input uses `Read_From_Tail On` in the default set (as the official Helm
    chart does); without it and without an offset DB, each restart would re-ship the whole journal.
 
+6. Elasticsearch's merge disk watermark (`indices.merge.disk.watermark.high`) is 500 MB, set by
+   `logcanary lab-up`. This was added on 20 November; before it, low free disk made Elasticsearch
+   hold merges back and throttle indexing (`docs/what-went-wrong.md`, item 19).
+
 ### Shipper settings: default and tuned
 
 The **default** set is the smallest config from each project's documentation that reads both
@@ -179,9 +187,27 @@ sources into one index. The **tuned** set adds the reliability settings each pro
 ## Matrix
 
 See `logcanary list` and [`src/logcanary/conditions.py`](../src/logcanary/conditions.py): 20
-default conditions (5 load, 11 faults, 2 field-fidelity, 2 clock) and 5 of them again with the
+default conditions (4 load, 12 faults, 2 field-fidelity, 2 clock) and 5 of them again with the
 tuned set, 2 to 5 repeats each. One run of one condition writes to both paths and is read by all
 three shippers, so each run yields six measured streams.
+
+What actually ran: all 25 of those conditions, 88 runs and 1,561,800 canaries (each written once per path), 2 to 5 repeats each (`logcanary list`, `results/runs.csv`). Eight more conditions on an Ubuntu 22.04 host (`jammy_*`) are
+defined but were not run. Three early `burst_max` runs were discarded (no restart policy on the
+shippers; kept in `results/discarded/`, in no table). Thirteen runs that failed on 14 November
+without writing a result were run again on 20 November. Details and reasons:
+[`docs/what-went-wrong.md`](what-went-wrong.md).
+
+## Files kept per run
+
+`results/runs/<condition>/r<n>-<run>/` holds `meta.json` (parameters, fault times, settle trail,
+shipper counters before and after, container states, host probe), `alerts.json` (what each
+component logged about itself), the three shippers' own logs (`*.log.gz`), `result.json` (the
+final reconcile) and `result_settle.json` (the first, at-settle reconcile). These are committed.
+The raw `ledger.csv.gz` and `arrivals.csv.gz` (about 76 MB in all) are not; their SHA-256 hashes
+are in `results/raw_sha256.txt` (`make check-raw` verifies a copy). `logcanary report` recomputes
+`result.json` from the raw files when they are present and builds every table from the
+`result.json` files either way; `logcanary report --check` (run in CI) fails if a committed table
+or `results/summary.json` no longer follows from them.
 
 ## What is hand-checked
 

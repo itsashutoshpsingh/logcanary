@@ -20,8 +20,15 @@ run. The closest work, and how logcanary differs:
 | [Microsoft Sentinel data connector health](https://learn.microsoft.com/en-us/azure/sentinel/monitor-data-connector-health) | `SentinelHealth` table: connector status changes and failures; transient errors logged after 60 minutes. | Arrival-side: sees a connector fail, cannot see events that never left a host. |
 | [TrackMe for Splunk](https://docs.trackme-solutions.com/latest/product_guide/components_dsm.html) | Tracks per-source delay (time since last event), latency (`_indextime - _time`) and volume outliers. | Arrival-side: compares a feed with its own history, so partial loss inside a still-flowing feed and loss that happens every day look normal. |
 
-Not checked: whether Elastic, Splunk or Cribl ship a free source-side canary feature. The search
-tool's quota ran out before those queries; this is an open item in `docs/what-went-wrong.md`.
+Vendor features, checked on 20 November 2026 (the first search ran out of quota before these):
+
+| Vendor | What its documentation offers | Difference |
+|---|---|---|
+| Elastic | Fleet shows Elastic Agent health, and a Kibana rule can alert on "no data" per host ([Fleet troubleshooting](https://www.elastic.co/docs/troubleshoot/ingest/fleet/common-problems), which also notes an agent can be `Healthy` and still not deliver). [Giovanni Carpentier (12 Nov 2026)](https://www.giovannicarpentier.com/blog/security-data-completeness) describes checking expected sources against arrivals and `event.ingested` against `@timestamp`. | Arrival-side: a host that sends something passes; no numbered events, no ledger, no loss percentage. |
+| Splunk | Monitoring Console "missing forwarders" alert: a forwarder that sent nothing for 15 minutes ([community answer](https://community.splunk.com/t5/Reporting/Alert-if-a-forwarder-service-stops/td-p/245332)). | Arrival-side, per forwarder; partial loss in a live feed is invisible. |
+| Cribl | Stream's [monitoring](https://docs.cribl.io/stream/4.16/monitoring/) covers the health, throughput and status of the deployment, its sources and destinations. | Measures what passes through Cribl; nothing is written at the source. |
+
+I found no free source-side canary feature from any of the three in the pages I read.
 What the lab itself shows is narrower: none of the three shippers, rsyslog, journald or
 Elasticsearch as configured here raises an alert that reaches the SIEM when canaries go missing
 (see the alerts columns in `results/table.md`).
