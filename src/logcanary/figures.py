@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 from matplotlib.patches import FancyBboxPatch  # noqa: E402
 
-from logcanary.conditions import ALL, SIZES  # noqa: E402
+from logcanary.conditions import ALL  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 RESULTS = ROOT / "results"
@@ -302,31 +302,16 @@ def fig_duplicates() -> str:
     return save(fig, "duplicates.png")
 
 
-def _nominal(n: int) -> int:
-    """The size the writer was asked for (it lands within a few bytes of it)."""
-    return min((int(x) for x in SIZES.split(",")), key=lambda x: abs(x - n))
-
-
 def _checks_by(cond: str, key: str) -> dict:
-    """{(shipper, src): {bucket: Counter(check)}} from raw arrivals; bucket is the size or kind."""
+    """{(shipper, src): {bucket: {check: n}}} summed over a condition's runs from result.json;
+    bucket is the nominal size (int) or the content kind."""
     out = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
     for d in run_dirs(cond):
-        led = {(r["src"], r["seq"]): r for r in read_gz_csv(d / "ledger.csv.gz")}
-        seen = set()
-        for a in read_gz_csv(d / "arrivals.csv.gz"):
-            k = (a["shipper"], a["src"], a["seq"])
-            if k in seen:
-                continue
-            seen.add(k)
-            row = led[(a["src"], a["seq"])]
-            bucket = _nominal(int(row["size_bytes"])) if key == "size" else row["kind"]
-            ok = a["check"] == "exact" and a["fields_ok"] == "True"
-            out[(a["shipper"], a["src"])][bucket]["intact" if ok else a["check"]] += 1
-        for (src, seq), row in led.items():
-            for sh in SHIPPERS:
-                if (sh, src, seq) not in seen:
-                    bucket = _nominal(int(row["size_bytes"])) if key == "size" else row["kind"]
-                    out[(sh, src)][bucket]["lost"] += 1
+        for k, m in json.loads((d / "result.json").read_text()).items():
+            sh, src = k.split("/")
+            for b, c in m.get(f"checks_by_{key}", {}).items():
+                for st, n in c.items():
+                    out[(sh, src)][int(b) if key == "size" else b][st] += n
     return out
 
 
@@ -496,8 +481,8 @@ def fig_clock() -> str:
             offset_min = meta["faults"][0]["kwargs"]["offset_s"] / 60
             for k, p in pts.items():
                 inside = [d for t, d in p if lo_t <= t <= hi_t]
-                ok = bool(inside) and np.median(inside) / offset_min > 0.5
-                follow[k] = follow.get(k, True) and ok
+                if inside:  # a pair with no canary inside the window (all lost) is not judged
+                    follow[k] = follow.get(k, True) and np.median(inside) / offset_min > 0.5
             ax.axvspan(wins[0][0], wins[1][0], color=GRID, lw=0, zorder=0)
         ax.set_xlabel("Seconds since the writer started (true time)")
         ax.set_ylabel("Event time in the SIEM minus true write time (minutes)")

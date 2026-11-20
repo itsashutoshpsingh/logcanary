@@ -15,7 +15,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 from logcanary import alerts, faults, lab, metrics, reconcile_es
-from logcanary.conditions import Condition
+from logcanary.conditions import Condition, nominal_size
 
 RESULTS = lab.ROOT / "results"
 RUNS = RESULTS / "runs"
@@ -239,6 +239,30 @@ def _arrival_rows(rows: list[dict], shipper: str, src: str) -> list[dict]:
     return out
 
 
+def checks_by(ledger: list[dict], arrivals: list[dict], shipper: str, src: str, key: str) -> dict:
+    """{bucket: {status: n}} for one stream, bucket = nominal size or content kind; status is intact,
+    a weaker check grade, or lost. Kept in result.json so the fidelity chart needs no raw files."""
+    led = {r["seq"]: r for r in ledger if r["src"] == src}
+
+    def bucket(r: dict) -> str:
+        return str(nominal_size(int(r["size_bytes"]))) if key == "size" else r["kind"]
+
+    out: dict = {}
+    seen = set()
+    for a in arrivals:
+        if a["shipper"] != shipper or a["src"] != src or a["seq"] in seen or a["seq"] not in led:
+            continue
+        seen.add(a["seq"])
+        st = "intact" if a["check"] == "exact" and a["fields_ok"] in ("True", True) else a["check"]
+        c = out.setdefault(bucket(led[a["seq"]]), {})
+        c[st] = c.get(st, 0) + 1
+    for seq, r in led.items():
+        if seq not in seen:
+            c = out.setdefault(bucket(r), {})
+            c["lost"] = c.get("lost", 0) + 1
+    return out
+
+
 def compute_result(out: Path) -> dict:
     """Result for a run directory, computed only from its raw files."""
     meta = json.loads((out / "meta.json").read_text())
@@ -261,6 +285,10 @@ def compute_result(out: Path) -> dict:
             after_n = meta["states"][c].get("RestartCount")
             # restarts by Docker's on-failure policy only: deliberate restarts and kills do not count
             m["shipper_crashes"] = (after_n - before_n) if None not in (before_n, after_n) else None
+            if meta["params"].get("sizes"):
+                m["checks_by_size"] = checks_by(ledger, arrivals, shipper, src, "size")
+            if meta["params"].get("kinds", "plain") != "plain":
+                m["checks_by_kind"] = checks_by(ledger, arrivals, shipper, src, "kind")
             result[f"{shipper}/{src}"] = m
     return result
 
@@ -281,7 +309,9 @@ def run_condition(cond: Condition, repeats: int | None = None) -> None:
     for d in (RUNS / cond.name).glob("r*") if (RUNS / cond.name).exists() else []:
         if not (d / "result.json").exists():  # an interrupted run: discard it
             shutil.rmtree(d)
-    for rep in range(done_repeats(cond) + 1, want + 1):
+    done = {int(p.name[1:].split("-", 1)[0]) for p in (RUNS / cond.name).glob("r*")} if (RUNS / cond.name).exists() \
+        else set()
+    for rep in [r for r in range(1, want + 1) if r not in done]:  # fill gaps left by discarded runs
         try:
             run_once(cond, rep)
         except Exception:  # record and move on; the next preflight repairs the lab

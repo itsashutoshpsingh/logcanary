@@ -32,6 +32,11 @@ def _c(name, title, **kw) -> Condition:
 
 SIZES = "1024,4096,8000,8200,16384,32768,65536"
 
+
+def nominal_size(n: int) -> int:
+    """The size the writer was asked for (it lands within a few bytes of it)."""
+    return min((int(x) for x in SIZES.split(",")), key=lambda x: abs(x - n))
+
 MATRIX: list[Condition] = [
     _c("baseline", "Steady 20/s for 90 s", group="load"),
     _c("burst_1k", "Burst: 10,000 at 1,000/s", rate=1000, count=10000, group="load"),

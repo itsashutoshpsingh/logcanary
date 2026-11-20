@@ -25,7 +25,10 @@ def f(x) -> float:
 
 
 def pct(x: float) -> str:
-    return f"{x:.0f}%" if x >= 10 or x == 0 else f"{x:.1f}%"
+    """Same rounding as results/table.md, so every summary number can be found there."""
+    from logcanary.report import fmt_pct
+
+    return fmt_pct(x) + "%"
 
 
 def build() -> dict:
@@ -43,33 +46,32 @@ def build() -> dict:
     lossy = [r for r in runs if int(r["lost"]) > 0]
     silent = [r for r in lossy if r["silent"] == "True"]
 
+    def m(label: str, cond: str, shipper: str, src: str, key: str = "loss_mean_pct") -> None:
+        r = cm.get((cond, shipper, src))
+        if r:
+            metrics.append({"label": label, "value": pct(f(r[key]))})
+
     metrics = [
-        {"label": "Canaries written and reconciled", "value": f"{sent:,}"},
         {"label": f"Worst default loss ({SHIP[worst['shipper']]}, {ALL[worst['condition']].title.lower()})",
          "value": pct(f(worst["loss_mean_pct"]))},
         {"label": "Lossy streams with no log line about the loss", "value": f"{len(silent)} of {len(lossy)}"},
     ]
-    b = cm.get(("burst_4k", "filebeat", "journald"))
-    if b:
-        metrics.append({"label": "20,000-event burst dropped by journald before any shipper",
-                        "value": pct(100 * f(b["lost_before_disk_total"]) / f(b["sent_total"]))})
-    r = cm.get(("shipper_restart", "fluentbit", "syslog"))
-    if r:
-        metrics.append({"label": "Fluent Bit default config, lost across a graceful restart",
-                        "value": pct(f(r["loss_mean_pct"]))})
-    r = cm.get(("baseline", "filebeat", "syslog"))
-    if r:
-        metrics.append({"label": "Filebeat default median delay at 20 events/s",
-                        "value": f"{f(r['lat_p50_ms']) / 1000:.1f} s"})
-    trunc = [r for r in default if r["condition"] == "sizes" and r["src"] == "syslog"]
-    if trunc:
-        metrics.append({"label": "64 KB messages via rsyslog that arrived intact",
-                        "value": pct(_intact_at("sizes", "syslog", 65536))})
     if tuned:
         tw = max(tuned, key=lambda r: f(r["loss_mean_pct"]))
         metrics.append({"label": f"Worst loss with tuned shippers ({SHIP[tw['shipper']]}, "
                                  f"{ALL[tw['condition']].title.split(' (')[0].lower()})",
                         "value": pct(f(tw["loss_mean_pct"]))})
+    m("Fluent Bit default config, lost across a graceful restart", "shipper_restart", "fluentbit", "syslog")
+    m("Lost on the file path when rsyslog was killed and restarted within 1 s", "daemon_crash", "filebeat", "syslog")
+    m("Vector, journal path, 50,000 canaries as fast as the writer can", "burst_max", "vector", "journald")
+    if any(r["condition"] == "sizes" and r["src"] == "syslog" for r in default):
+        metrics.append({"label": "64 KB messages via rsyslog that arrived intact",
+                        "value": pct(_intact_at("sizes", "syslog", 65536))})
+    r = cm.get(("baseline", "filebeat", "syslog"))
+    if r:
+        metrics.append({"label": "Filebeat default median delay at 20 events/s",
+                        "value": f"{f(r['lat_p50_ms']) / 1000:.1f} s"})
+    metrics.append({"label": "Canaries written and reconciled", "value": f"{sent:,}"})
     metrics.append({"label": "Runs (each read by three shippers on two log paths)", "value": str(n_runs)})
 
     headline = (f"{sent:,} numbered canaries written through rsyslog and journald on an Ubuntu 24.04 host and "
@@ -106,7 +108,7 @@ def build() -> dict:
     charts = [{"path": f"docs/img/{p}", "label": lbl, "alt": alt} for p, lbl, alt in charts
               if (ROOT / "docs" / "img" / p).exists()]
     return {"project": "logcanary", "headline": headline, "metrics": metrics[:10], "charts": charts,
-            "viz": viz(cm)}
+            "viz": viz(cm, lossy, silent)}
 
 
 def _intact_at(cond: str, src: str, size: int) -> float:
@@ -118,27 +120,34 @@ def _intact_at(cond: str, src: str, size: int) -> float:
     return 100 * c.get("intact", 0) / n if n else 0.0
 
 
-def viz(cm: dict) -> list[dict]:
+def viz(cm: dict, lossy: list[dict], silent: list[dict]) -> list[dict]:
     def tone(v: float) -> str:
         return "good" if v == 0 else ("warn" if v < 5 else "bad")
 
+    def bar(label: str, key: tuple) -> dict | None:
+        r = cm.get(key)
+        if r is None:
+            return None
+        v = round(f(r["loss_mean_pct"]), 3)
+        return {"label": label, "value": v, "tone": tone(v)}
+
     out = []
-    for c, title in (("es_down_120", "Elasticsearch down for 2 minutes: share of canaries lost (file path)"),
-                     ("shipper_restart", "A graceful shipper restart: share of canaries lost (file path)")):
-        bars = [{"label": SHIP[s], "value": round(f(cm[(c, s, "syslog")]["loss_mean_pct"]), 2),
-                 "tone": tone(f(cm[(c, s, "syslog")]["loss_mean_pct"]))} for s in SHIP if (c, s, "syslog") in cm]
-        if bars:
-            out.append({"title": title, "unit": "%", "bars": bars})
-    bars = []
-    for c, lbl in (("baseline", "Steady 20/s"), ("burst_1k", "Burst 1,000/s"), ("burst_4k", "Burst 4,000/s"),
-                   ("burst_max", "Burst flat out")):
-        r = cm.get((c, "filebeat", "journald"))
-        if r:
-            v = round(100 * f(r["lost_before_disk_total"]) / f(r["sent_total"]), 2)
-            bars.append({"label": lbl, "value": v, "tone": tone(v)})
-    if bars:
-        out.append({"title": "journald dropped canaries before any shipper saw them as the rate rose", "unit": "%",
-                    "bars": bars})
+    bars = [bar(SHIP[s], ("es_down_120", s, "syslog")) for s in SHIP]
+    if all(bars):
+        out.append({"title": "Elasticsearch down for 2 minutes: share of canaries lost on the file path",
+                    "unit": "%", "bars": bars})
+    bars = [b for c, lbl in (("shipper_restart", "Restart"), ("shipper_crash", "Crash"), ("partition_60", "Partition"))
+            for b in (bar(f"{lbl}, default", (c, "fluentbit", "syslog")),
+                      bar(f"{lbl}, tuned", (c + "_tuned", "fluentbit", "syslog")))]
+    if all(bars):
+        out.append({"title": "Fluent Bit on the file path: share of canaries lost with default and tuned settings",
+                    "unit": "%", "bars": bars})
+    said = [("Shipper log said so", sum(r["alert_shipper"] == "loss" for r in lossy)),
+            ("Host daemon log said so", sum(r["alert_host"] == "loss" for r in lossy)),
+            ("No log line anywhere", len(silent))]
+    out.append({"title": f"Of {len(lossy)} lossy streams, which ones left a log line about the loss", "unit": "count",
+                "bars": [{"label": lbl, "value": n, "tone": "bad" if lbl.startswith("No") else "neutral"}
+                         for lbl, n in said]})
     return out[:3]
 
 

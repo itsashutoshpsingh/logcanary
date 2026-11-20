@@ -5,3 +5,9 @@ __pycache__/
 .env
 *.pyc
 results/raw_big/
+# Raw per-run ledgers and arrivals stay out of git (about 76 MB); their SHA-256 hashes are in
+# results/raw_sha256.txt and every table follows from the committed per-run result files.
+results/runs/*/*/ledger.csv.gz
+results/runs/*/*/arrivals.csv.gz
+results/discarded/*/*/ledger.csv.gz
+results/discarded/*/*/arrivals.csv.gz

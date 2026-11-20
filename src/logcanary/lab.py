@@ -63,6 +63,10 @@ def install_es_assets() -> None:
     c.ingest.put_pipeline(id="lc-ingest", body=json.loads((LAB / "es/pipeline.json").read_text()))
     t = json.loads((LAB / "es/template.json").read_text())
     c.indices.put_index_template(name="lc", body=t)
+    # On a nearly full disk Elasticsearch holds merges back (default: 95% used) and then throttles
+    # indexing; that confounded part of the matrix (docs/what-went-wrong.md), so the lab allows
+    # merges until 500 MB are left.
+    c.cluster.put_settings(persistent={"indices.merge.disk.watermark.high": "500mb"})
 
 
 def running(container: str) -> bool:
