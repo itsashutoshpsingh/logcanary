@@ -1,0 +1,350 @@
+{
+ "filebeat/syslog": {
+  "sent": 700,
+  "arrived": 700,
+  "docs": 700,
+  "lost": 0,
+  "loss_pct": 0.0,
+  "duplicates": 0,
+  "dup_pct": 0.0,
+  "lat_p50_ms": 6886.2,
+  "lat_p95_ms": 10971.0,
+  "lat_p99_ms": 11430.4,
+  "lat_max_ms": 11615.8,
+  "intact_pct": 42.857,
+  "exact_pct": 42.857,
+  "recoverable_pct": 0.0,
+  "truncated": 400,
+  "damaged": 0,
+  "skew_p50_ms": 0.1,
+  "skew_max_abs_ms": 4.0,
+  "late_5m_pct": 0.0,
+  "missed_rule_pct_of_arrived": 0.0,
+  "blind_pct": 0.0,
+  "send_errors": 0,
+  "missing_ranges": [],
+  "unknown_seq_docs": 0,
+  "on_disk": 700,
+  "lost_before_disk": 0,
+  "gap_rule_fires": false,
+  "gap_rule_missing": 0,
+  "alert_shipper": "quiet",
+  "alert_host": "quiet",
+  "shipper_counted_loss": 0,
+  "silent": false,
+  "shipper_crashes": 0,
+  "checks_by_size": {
+   "16384": {
+    "truncated": 100
+   },
+   "32768": {
+    "truncated": 100
+   },
+   "65536": {
+    "truncated": 100
+   },
+   "1024": {
+    "intact": 100
+   },
+   "4096": {
+    "intact": 100
+   },
+   "8000": {
+    "intact": 100
+   },
+   "8200": {
+    "truncated": 100
+   }
+  }
+ },
+ "filebeat/journald": {
+  "sent": 700,
+  "arrived": 700,
+  "docs": 700,
+  "lost": 0,
+  "loss_pct": 0.0,
+  "duplicates": 0,
+  "dup_pct": 0.0,
+  "lat_p50_ms": 5935.8,
+  "lat_p95_ms": 9865.5,
+  "lat_p99_ms": 10214.4,
+  "lat_max_ms": 10285.1,
+  "intact_pct": 100.0,
+  "exact_pct": 100.0,
+  "recoverable_pct": 0.0,
+  "truncated": 0,
+  "damaged": 0,
+  "skew_p50_ms": -0.1,
+  "skew_max_abs_ms": 10.1,
+  "late_5m_pct": 0.0,
+  "missed_rule_pct_of_arrived": 0.0,
+  "blind_pct": 0.0,
+  "send_errors": 0,
+  "missing_ranges": [],
+  "unknown_seq_docs": 0,
+  "on_disk": 700,
+  "lost_before_disk": 0,
+  "gap_rule_fires": false,
+  "gap_rule_missing": 0,
+  "alert_shipper": "quiet",
+  "alert_host": "quiet",
+  "shipper_counted_loss": 0,
+  "silent": false,
+  "shipper_crashes": 0,
+  "checks_by_size": {
+   "8200": {
+    "intact": 100
+   },
+   "16384": {
+    "intact": 100
+   },
+   "32768": {
+    "intact": 100
+   },
+   "65536": {
+    "intact": 100
+   },
+   "1024": {
+    "intact": 100
+   },
+   "4096": {
+    "intact": 100
+   },
+   "8000": {
+    "intact": 100
+   }
+  }
+ },
+ "fluentbit/syslog": {
+  "sent": 700,
+  "arrived": 700,
+  "docs": 700,
+  "lost": 0,
+  "loss_pct": 0.0,
+  "duplicates": 0,
+  "dup_pct": 0.0,
+  "lat_p50_ms": 497.2,
+  "lat_p95_ms": 940.1,
+  "lat_p99_ms": 959.8,
+  "lat_max_ms": 986.8,
+  "intact_pct": 42.857,
+  "exact_pct": 42.857,
+  "recoverable_pct": 0.0,
+  "truncated": 400,
+  "damaged": 0,
+  "skew_p50_ms": 0.1,
+  "skew_max_abs_ms": 4.0,
+  "late_5m_pct": 0.0,
+  "missed_rule_pct_of_arrived": 0.0,
+  "blind_pct": 0.0,
+  "send_errors": 0,
+  "missing_ranges": [],
+  "unknown_seq_docs": 0,
+  "on_disk": 700,
+  "lost_before_disk": 0,
+  "gap_rule_fires": false,
+  "gap_rule_missing": 0,
+  "alert_shipper": "quiet",
+  "alert_host": "quiet",
+  "shipper_counted_loss": 0,
+  "silent": false,
+  "shipper_crashes": 0,
+  "checks_by_size": {
+   "65536": {
+    "truncated": 100
+   },
+   "1024": {
+    "intact": 100
+   },
+   "4096": {
+    "intact": 100
+   },
+   "8000": {
+    "intact": 100
+   },
+   "8200": {
+    "truncated": 100
+   },
+   "16384": {
+    "truncated": 100
+   },
+   "32768": {
+    "truncated": 100
+   }
+  }
+ },
+ "fluentbit/journald": {
+  "sent": 700,
+  "arrived": 700,
+  "docs": 700,
+  "lost": 0,
+  "loss_pct": 0.0,
+  "duplicates": 0,
+  "dup_pct": 0.0,
+  "lat_p50_ms": 608.5,
+  "lat_p95_ms": 1063.5,
+  "lat_p99_ms": 1159.7,
+  "lat_max_ms": 1209.6,
+  "intact_pct": 100.0,
+  "exact_pct": 100.0,
+  "recoverable_pct": 0.0,
+  "truncated": 0,
+  "damaged": 0,
+  "skew_p50_ms": -0.1,
+  "skew_max_abs_ms": 10.1,
+  "late_5m_pct": 0.0,
+  "missed_rule_pct_of_arrived": 0.0,
+  "blind_pct": 0.0,
+  "send_errors": 0,
+  "missing_ranges": [],
+  "unknown_seq_docs": 0,
+  "on_disk": 700,
+  "lost_before_disk": 0,
+  "gap_rule_fires": false,
+  "gap_rule_missing": 0,
+  "alert_shipper": "quiet",
+  "alert_host": "quiet",
+  "shipper_counted_loss": 0,
+  "silent": false,
+  "shipper_crashes": 0,
+  "checks_by_size": {
+   "65536": {
+    "intact": 100
+   },
+   "1024": {
+    "intact": 100
+   },
+   "4096": {
+    "intact": 100
+   },
+   "8000": {
+    "intact": 100
+   },
+   "8200": {
+    "intact": 100
+   },
+   "16384": {
+    "intact": 100
+   },
+   "32768": {
+    "intact": 100
+   }
+  }
+ },
+ "vector/syslog": {
+  "sent": 700,
+  "arrived": 700,
+  "docs": 700,
+  "lost": 0,
+  "loss_pct": 0.0,
+  "duplicates": 0,
+  "dup_pct": 0.0,
+  "lat_p50_ms": 634.5,
+  "lat_p95_ms": 5278.9,
+  "lat_p99_ms": 6676.2,
+  "lat_max_ms": 7025.6,
+  "intact_pct": 42.857,
+  "exact_pct": 42.857,
+  "recoverable_pct": 0.0,
+  "truncated": 400,
+  "damaged": 0,
+  "skew_p50_ms": 0.1,
+  "skew_max_abs_ms": 4.0,
+  "late_5m_pct": 0.0,
+  "missed_rule_pct_of_arrived": 0.0,
+  "blind_pct": 0.0,
+  "send_errors": 0,
+  "missing_ranges": [],
+  "unknown_seq_docs": 0,
+  "on_disk": 700,
+  "lost_before_disk": 0,
+  "gap_rule_fires": false,
+  "gap_rule_missing": 0,
+  "alert_shipper": "quiet",
+  "alert_host": "quiet",
+  "shipper_counted_loss": 0,
+  "silent": false,
+  "shipper_crashes": 0,
+  "checks_by_size": {
+   "65536": {
+    "truncated": 100
+   },
+   "1024": {
+    "intact": 100
+   },
+   "4096": {
+    "intact": 100
+   },
+   "8000": {
+    "intact": 100
+   },
+   "8200": {
+    "truncated": 100
+   },
+   "16384": {
+    "truncated": 100
+   },
+   "32768": {
+    "truncated": 100
+   }
+  }
+ },
+ "vector/journald": {
+  "sent": 700,
+  "arrived": 700,
+  "docs": 700,
+  "lost": 0,
+  "loss_pct": 0.0,
+  "duplicates": 0,
+  "dup_pct": 0.0,
+  "lat_p50_ms": 677.6,
+  "lat_p95_ms": 1177.0,
+  "lat_p99_ms": 1267.9,
+  "lat_max_ms": 1326.6,
+  "intact_pct": 100.0,
+  "exact_pct": 100.0,
+  "recoverable_pct": 0.0,
+  "truncated": 0,
+  "damaged": 0,
+  "skew_p50_ms": 0.1,
+  "skew_max_abs_ms": 1.5,
+  "late_5m_pct": 0.0,
+  "missed_rule_pct_of_arrived": 0.0,
+  "blind_pct": 0.0,
+  "send_errors": 0,
+  "missing_ranges": [],
+  "unknown_seq_docs": 0,
+  "on_disk": 700,
+  "lost_before_disk": 0,
+  "gap_rule_fires": false,
+  "gap_rule_missing": 0,
+  "alert_shipper": "quiet",
+  "alert_host": "quiet",
+  "shipper_counted_loss": 0,
+  "silent": false,
+  "shipper_crashes": 0,
+  "checks_by_size": {
+   "16384": {
+    "intact": 100
+   },
+   "32768": {
+    "intact": 100
+   },
+   "65536": {
+    "intact": 100
+   },
+   "8200": {
+    "intact": 100
+   },
+   "1024": {
+    "intact": 100
+   },
+   "4096": {
+    "intact": 100
+   },
+   "8000": {
+    "intact": 100
+   }
+  }
+ }
+}

@@ -1,0 +1,44 @@
+{
+ "filebeat": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "fluentbit": {
+  "status": "loss",
+  "warn_lines": 48,
+  "loss_lines": 8,
+  "samples": [
+   "[2026/11/14 14:31:37.555] [error] [engine] chunk '1-1794666687.961163147.flb' cannot be retried: task_id=1, input=systemd.1 > output=es.0",
+   "[2026/11/14 14:31:38.372] [error] [engine] chunk '1-1794666688.959613139.flb' cannot be retried: task_id=3, input=systemd.1 > output=es.0",
+   "[2026/11/14 14:31:39.208] [error] [engine] chunk '1-1794666688.959785310.flb' cannot be retried: task_id=2, input=tail.0 > output=es.0",
+   "[2026/11/14 14:31:39.209] [error] [engine] chunk '1-1794666687.962320149.flb' cannot be retried: task_id=0, input=tail.0 > output=es.0",
+   "[2026/11/14 14:31:40.068] [error] [engine] chunk '1-1794666690.958851153.flb' cannot be retried: task_id=4, input=tail.0 > output=es.0"
+  ]
+ },
+ "vector": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "rsyslog": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "journald": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "supervisor": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ }
+}

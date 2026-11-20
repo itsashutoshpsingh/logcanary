@@ -1,0 +1,53 @@
+{
+ "filebeat": {
+  "status": "warn",
+  "warn_lines": 57,
+  "loss_lines": 0,
+  "samples": [
+   "{\"log.level\":\"error\",\"@timestamp\":\"2026-11-14T16:39:16.052Z\",\"log.logger\":\"elasticsearch.esclientleg\",\"log.origin\":{\"function\":\"github.com/elastic/elastic-agent-libs/transport/httpcommon.(*HTTPTransportSettings).RoundTripper.LoggingDialer.func1\",\"file.name\":\"transport/logging.go\",\"file.line\":39},\"me",
+   "{\"log.level\":\"error\",\"@timestamp\":\"2026-11-14T16:39:16.052Z\",\"log.logger\":\"elasticsearch\",\"log.origin\":{\"function\":\"github.com/elastic/beats/v7/libbeat/outputs/elasticsearch.(*Client).handleBulkResultError\",\"file.name\":\"elasticsearch/client.go\",\"file.line\":347},\"message\":\"failed to perform any bulk ",
+   "{\"log.level\":\"error\",\"@timestamp\":\"2026-11-14T16:39:17.942Z\",\"log.logger\":\"publisher_pipeline_output\",\"log.origin\":{\"function\":\"github.com/elastic/beats/v7/libbeat/publisher/pipeline.(*netClientWorker).publishBatch\",\"file.name\":\"pipeline/client_worker.go\",\"file.line\":174},\"message\":\"failed to publis",
+   "{\"log.level\":\"error\",\"@timestamp\":\"2026-11-14T16:39:17.943Z\",\"log.logger\":\"elasticsearch.esclientleg\",\"log.origin\":{\"function\":\"github.com/elastic/elastic-agent-libs/transport/httpcommon.(*HTTPTransportSettings).RoundTripper.LoggingDialer.func1\",\"file.name\":\"transport/logging.go\",\"file.line\":39},\"me",
+   "{\"log.level\":\"error\",\"@timestamp\":\"2026-11-14T16:39:19.207Z\",\"log.logger\":\"publisher_pipeline_output\",\"log.origin\":{\"function\":\"github.com/elastic/beats/v7/libbeat/publisher/pipeline.(*netClientWorker).run\",\"file.name\":\"pipeline/client_worker.go\",\"file.line\":149},\"message\":\"Failed to connect to back"
+  ]
+ },
+ "fluentbit": {
+  "status": "loss",
+  "warn_lines": 4830,
+  "loss_lines": 1220,
+  "samples": [
+   "[2026/11/14 16:39:24.958] [error] [engine] chunk '1-1794674355.204576448.flb' cannot be retried: task_id=1, input=systemd.1 > output=es.0",
+   "[2026/11/14 16:39:24.958] [error] [engine] chunk '1-1794674354.986844825.flb' cannot be retried: task_id=0, input=tail.0 > output=es.0",
+   "[2026/11/14 16:39:24.958] [error] [engine] chunk '1-1794674357.957238360.flb' cannot be retried: task_id=7, input=systemd.1 > output=es.0",
+   "[2026/11/14 16:39:24.958] [error] [engine] chunk '1-1794674355.956499678.flb' cannot be retried: task_id=3, input=systemd.1 > output=es.0",
+   "[2026/11/14 16:39:25.958] [error] [engine] chunk '1-1794674356.986587061.flb' cannot be retried: task_id=4, input=tail.0 > output=es.0"
+  ]
+ },
+ "vector": {
+  "status": "warn",
+  "warn_lines": 2,
+  "loss_lines": 0,
+  "samples": [
+   "2026-11-14T16:42:29.050895Z  WARN sink{component_kind=\"sink\" component_id=es component_type=elasticsearch}:request{request_id=633}:http: vector::internal_events::http_client: HTTP error. error=error trying to connect: dns error: failed to lookup address information: Name or service not known error_t",
+   "2026-11-14T16:42:29.050985Z  WARN sink{component_kind=\"sink\" component_id=es component_type=elasticsearch}:request{request_id=633}: vector::sinks::util::retries: Retrying after error. error=Failed to make HTTP(S) request: error trying to connect: dns error: failed to lookup address information: Name"
+  ]
+ },
+ "rsyslog": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "journald": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "supervisor": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ }
+}

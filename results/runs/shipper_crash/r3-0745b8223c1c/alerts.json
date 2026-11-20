@@ -1,0 +1,40 @@
+{
+ "filebeat": {
+  "status": "warn",
+  "warn_lines": 1,
+  "loss_lines": 0,
+  "samples": [
+   "{\"log.level\":\"error\",\"@timestamp\":\"2026-11-14T15:15:44.589Z\",\"log.logger\":\"input.journald.reader\",\"log.origin\":{\"function\":\"github.com/elastic/beats/v7/filebeat/input/journald.(*journald).Run.NewFactory.func1.3\",\"file.name\":\"journalctl/journalctl.go\",\"file.line\":149},\"message\":\"journalctl exited wit"
+  ]
+ },
+ "fluentbit": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "vector": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "rsyslog": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "journald": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "supervisor": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ }
+}

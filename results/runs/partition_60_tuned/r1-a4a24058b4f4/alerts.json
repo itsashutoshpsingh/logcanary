@@ -1,0 +1,54 @@
+{
+ "filebeat": {
+  "status": "warn",
+  "warn_lines": 22,
+  "loss_lines": 0,
+  "samples": [
+   "{\"log.level\":\"warn\",\"@timestamp\":\"2026-11-14T18:35:06.461Z\",\"log.logger\":\"transport\",\"log.origin\":{\"function\":\"github.com/elastic/elastic-agent-libs/transport/httpcommon.(*HTTPTransportSettings).RoundTripper.NetDialer.TestNetDialer.func3\",\"file.name\":\"transport/tcp.go\",\"file.line\":53},\"message\":\"DNS",
+   "{\"log.level\":\"error\",\"@timestamp\":\"2026-11-14T18:35:06.462Z\",\"log.logger\":\"elasticsearch.esclientleg\",\"log.origin\":{\"function\":\"github.com/elastic/elastic-agent-libs/transport/httpcommon.(*HTTPTransportSettings).RoundTripper.LoggingDialer.func1\",\"file.name\":\"transport/logging.go\",\"file.line\":39},\"me",
+   "{\"log.level\":\"error\",\"@timestamp\":\"2026-11-14T18:35:06.462Z\",\"log.logger\":\"elasticsearch\",\"log.origin\":{\"function\":\"github.com/elastic/beats/v7/libbeat/outputs/elasticsearch.(*Client).handleBulkResultError\",\"file.name\":\"elasticsearch/client.go\",\"file.line\":347},\"message\":\"failed to perform any bulk ",
+   "{\"log.level\":\"error\",\"@timestamp\":\"2026-11-14T18:35:07.517Z\",\"log.logger\":\"publisher_pipeline_output\",\"log.origin\":{\"function\":\"github.com/elastic/beats/v7/libbeat/publisher/pipeline.(*netClientWorker).publishBatch\",\"file.name\":\"pipeline/client_worker.go\",\"file.line\":174},\"message\":\"failed to publis",
+   "{\"log.level\":\"warn\",\"@timestamp\":\"2026-11-14T18:35:07.518Z\",\"log.logger\":\"transport\",\"log.origin\":{\"function\":\"github.com/elastic/elastic-agent-libs/transport/httpcommon.(*HTTPTransportSettings).RoundTripper.NetDialer.TestNetDialer.func3\",\"file.name\":\"transport/tcp.go\",\"file.line\":53},\"message\":\"DNS"
+  ]
+ },
+ "fluentbit": {
+  "status": "warn",
+  "warn_lines": 658,
+  "loss_lines": 0,
+  "samples": [
+   "[2026/11/14 18:35:07.957] [ warn] [net] getaddrinfo(host='es', err=11): Could not contact DNS servers",
+   "[2026/11/14 18:35:07.957] [ warn] [net] getaddrinfo(host='es', err=11): Could not contact DNS servers",
+   "[2026/11/14 18:35:07.959] [ warn] [engine] failed to flush chunk '1-1794681306.964050081.flb', retry in 7 seconds: task_id=2, input=tail.0 > output=es.0 (out_id=0)",
+   "[2026/11/14 18:35:07.959] [ warn] [engine] failed to flush chunk '1-1794681306.957911066.flb', retry in 7 seconds: task_id=3, input=systemd.1 > output=es.0 (out_id=0)",
+   "[2026/11/14 18:35:08.957] [ warn] [net] getaddrinfo(host='es', err=11): Could not contact DNS servers"
+  ]
+ },
+ "vector": {
+  "status": "warn",
+  "warn_lines": 3,
+  "loss_lines": 0,
+  "samples": [
+   "2026-11-14T18:35:08.069563Z  WARN sink{component_kind=\"sink\" component_id=es component_type=elasticsearch}:request{request_id=60}:http: vector::internal_events::http_client: HTTP error. error=error trying to connect: dns error: failed to lookup address information: Temporary failure in name resoluti",
+   "2026-11-14T18:35:08.069820Z  WARN sink{component_kind=\"sink\" component_id=es component_type=elasticsearch}:request{request_id=60}: vector::sinks::util::retries: Retrying after error. error=Failed to make HTTP(S) request: error trying to connect: dns error: failed to lookup address information: Tempo",
+   "2026-11-14T18:36:07.050198Z  WARN sink{component_kind=\"sink\" component_id=es component_type=elasticsearch}:request{request_id=59}: vector::sinks::util::retries: Request timed out. If this happens often while the events are actually reaching their destination, try decreasing `batch.max_bytes` and/or "
+  ]
+ },
+ "rsyslog": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "journald": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "supervisor": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ }
+}

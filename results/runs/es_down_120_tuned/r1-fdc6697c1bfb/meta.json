@@ -1,0 +1,657 @@
+{
+ "run": "fdc6697c1bfb",
+ "condition": "es_down_120_tuned",
+ "title": "Elasticsearch stopped for 120 s (tuned shippers)",
+ "repeat": 1,
+ "params": {
+  "rate": 50,
+  "count": 9000,
+  "size": 256,
+  "sizes": "",
+  "kinds": "plain",
+  "shipper_set": "tuned",
+  "settle_s": 20,
+  "host": "noble"
+ },
+ "faults": [
+  {
+   "action": "es_stop",
+   "kwargs": {},
+   "offset_s": 20,
+   "start_ns": 1795139432140588944,
+   "end_ns": 1795139434907245639,
+   "error": ""
+  },
+  {
+   "action": "es_start",
+   "kwargs": {},
+   "offset_s": 140,
+   "start_ns": 1795139552140580347,
+   "end_ns": 1795139576646888120,
+   "error": ""
+  }
+ ],
+ "t_start_ns": 1795139412139885441,
+ "t_writer_done_ns": 1795139592265275595,
+ "writer": {
+  "run": "fdc6697c1bfb",
+  "count": 9000,
+  "srcs": [
+   "syslog",
+   "journald"
+  ],
+  "elapsed_s": 179.98,
+  "achieved_rate": 50.0,
+  "send_errors": 0
+ },
+ "settle": {
+  "waited_s": 296.5,
+  "final_counts": {
+   "filebeat": 18000,
+   "fluentbit": 18000,
+   "vector": 18000
+  },
+  "trail": [
+   {
+    "t_s": 0.2,
+    "counts": {
+     "filebeat": 923,
+     "fluentbit": 9540,
+     "vector": 1938
+    }
+   },
+   {
+    "t_s": 5.4,
+    "counts": {
+     "filebeat": 11034,
+     "fluentbit": 10321,
+     "vector": 1938
+    }
+   },
+   {
+    "t_s": 10.5,
+    "counts": {
+     "filebeat": 17325,
+     "fluentbit": 11236,
+     "vector": 1938
+    }
+   },
+   {
+    "t_s": 15.6,
+    "counts": {
+     "filebeat": 17325,
+     "fluentbit": 11948,
+     "vector": 1938
+    }
+   },
+   {
+    "t_s": 20.6,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 12668,
+     "vector": 1938
+    }
+   },
+   {
+    "t_s": 25.6,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 13178,
+     "vector": 1938
+    }
+   },
+   {
+    "t_s": 30.7,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 13690,
+     "vector": 1938
+    }
+   },
+   {
+    "t_s": 35.7,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 14137,
+     "vector": 1938
+    }
+   },
+   {
+    "t_s": 40.7,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 14380,
+     "vector": 1938
+    }
+   },
+   {
+    "t_s": 45.7,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 14824,
+     "vector": 1938
+    }
+   },
+   {
+    "t_s": 50.8,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 15132,
+     "vector": 1938
+    }
+   },
+   {
+    "t_s": 55.8,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 15438,
+     "vector": 1938
+    }
+   },
+   {
+    "t_s": 60.8,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 15891,
+     "vector": 1938
+    }
+   },
+   {
+    "t_s": 65.8,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 16081,
+     "vector": 1938
+    }
+   },
+   {
+    "t_s": 70.8,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 16234,
+     "vector": 1938
+    }
+   },
+   {
+    "t_s": 75.9,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 16384,
+     "vector": 1938
+    }
+   },
+   {
+    "t_s": 80.9,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 16642,
+     "vector": 1938
+    }
+   },
+   {
+    "t_s": 85.9,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 16844,
+     "vector": 1938
+    }
+   },
+   {
+    "t_s": 90.9,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17103,
+     "vector": 1938
+    }
+   },
+   {
+    "t_s": 95.9,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17143,
+     "vector": 1938
+    }
+   },
+   {
+    "t_s": 101.0,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17346,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 106.0,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17548,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 111.0,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17698,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 116.0,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17698,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 121.0,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17748,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 126.1,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17748,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 131.1,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17748,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 136.1,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17800,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 141.1,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17800,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 146.1,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17850,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 151.1,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17850,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 156.1,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17850,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 161.2,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17850,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 166.2,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17850,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 171.2,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17850,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 176.2,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17850,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 181.2,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17850,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 186.2,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17850,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 191.2,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17850,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 196.2,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17850,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 201.3,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17900,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 206.3,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17900,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 211.3,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17950,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 216.3,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17950,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 221.3,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17950,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 226.3,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17950,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 231.4,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17950,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 236.4,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17950,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 241.4,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17950,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 246.4,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17950,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 251.4,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17950,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 256.4,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17950,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 261.4,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17950,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 266.5,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17950,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 271.5,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 17950,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 276.5,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 18000,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 281.5,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 18000,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 286.5,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 18000,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 291.5,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 18000,
+     "vector": 18000
+    }
+   },
+   {
+    "t_s": 296.5,
+    "counts": {
+     "filebeat": 18000,
+     "fluentbit": 18000,
+     "vector": 18000
+    }
+   }
+  ]
+ },
+ "preflight": {
+  "restarted": []
+ },
+ "probe_on_disk": {
+  "syslog": 9000,
+  "journald": 9000
+ },
+ "host_supervisor": [],
+ "journald_stderr_tail": [
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches."
+ ],
+ "counters_before": {
+  "filebeat": {
+   "acked": 1,
+   "failed": 0,
+   "dropped": 0,
+   "pipeline_dropped": 0,
+   "pipeline_failed": 0,
+   "pipeline_retry": 0
+  },
+  "fluentbit": {
+   "proc_records": 1,
+   "dropped_records": 0,
+   "retried_records": 0,
+   "retries_failed": 0,
+   "errors": 0
+  },
+  "vector": {
+   "discarded": 0.0,
+   "errors": 0.0,
+   "buffer_discarded": 0.0,
+   "sent_events": 1.0
+  }
+ },
+ "counters_after": {
+  "filebeat": {
+   "acked": 18001,
+   "failed": 1008,
+   "dropped": 0,
+   "pipeline_dropped": 0,
+   "pipeline_failed": 0,
+   "pipeline_retry": 1008
+  },
+  "fluentbit": {
+   "proc_records": 18001,
+   "dropped_records": 0,
+   "retried_records": 55562,
+   "retries_failed": 0,
+   "errors": 0
+  },
+  "vector": {
+   "discarded": 0.0,
+   "errors": 0.0,
+   "buffer_discarded": 0.0,
+   "sent_events": 18001.0
+  }
+ },
+ "mem_mb": {
+  "lc-fluentbit": 7.5,
+  "lc-vector": 61.1,
+  "lc-filebeat": 46.5,
+  "lc-host": 18.5,
+  "lc-es": 1608.7
+ },
+ "states": {
+  "lc-es": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-20T01:52:32.177220793Z",
+   "RestartCount": 0
+  },
+  "lc-host": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-20T00:56:01.865968383Z",
+   "RestartCount": 0
+  },
+  "lc-filebeat": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-20T01:49:56.208557261Z",
+   "RestartCount": 0
+  },
+  "lc-fluentbit": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-20T01:49:56.35292877Z",
+   "RestartCount": 0
+  },
+  "lc-vector": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-20T01:49:56.037130251Z",
+   "RestartCount": 0
+  }
+ },
+ "restarts_before": {
+  "lc-filebeat": 0,
+  "lc-fluentbit": 0,
+  "lc-vector": 0
+ }
+}

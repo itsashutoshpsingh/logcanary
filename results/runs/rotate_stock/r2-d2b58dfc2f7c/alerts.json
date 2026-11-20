@@ -1,0 +1,42 @@
+{
+ "filebeat": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "fluentbit": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "vector": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "rsyslog": {
+  "status": "warn",
+  "warn_lines": 1,
+  "loss_lines": 0,
+  "samples": [
+   "2026-11-20T01:25:47.581358+00:00 lab-host rsyslogd: [origin software=\"rsyslogd\" swVersion=\"8.2312.0\" x-pid=\"23\" x-info=\"https://www.rsyslog.com\"] rsyslogd was HUPed"
+  ]
+ },
+ "journald": {
+  "status": "warn",
+  "warn_lines": 1,
+  "loss_lines": 0,
+  "samples": [
+   "System Journal (/var/log/journal/7ccd002c4743424fac1da6e9fb1c6eee) is 52.4M, max 52.4M, 0B free."
+  ]
+ },
+ "supervisor": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ }
+}

@@ -1,0 +1,55 @@
+{
+ "filebeat": {
+  "status": "warn",
+  "warn_lines": 37,
+  "loss_lines": 0,
+  "samples": [
+   "{\"log.level\":\"warn\",\"@timestamp\":\"2026-11-14T15:43:42.789Z\",\"log.logger\":\"transport\",\"log.origin\":{\"function\":\"github.com/elastic/elastic-agent-libs/transport/httpcommon.(*HTTPTransportSettings).RoundTripper.NetDialer.TestNetDialer.func3\",\"file.name\":\"transport/tcp.go\",\"file.line\":53},\"message\":\"DNS",
+   "{\"log.level\":\"error\",\"@timestamp\":\"2026-11-14T15:43:42.790Z\",\"log.logger\":\"elasticsearch.esclientleg\",\"log.origin\":{\"function\":\"github.com/elastic/elastic-agent-libs/transport/httpcommon.(*HTTPTransportSettings).RoundTripper.LoggingDialer.func1\",\"file.name\":\"transport/logging.go\",\"file.line\":39},\"me",
+   "{\"log.level\":\"error\",\"@timestamp\":\"2026-11-14T15:43:42.790Z\",\"log.logger\":\"elasticsearch\",\"log.origin\":{\"function\":\"github.com/elastic/beats/v7/libbeat/outputs/elasticsearch.(*Client).handleBulkResultError\",\"file.name\":\"elasticsearch/client.go\",\"file.line\":347},\"message\":\"failed to perform any bulk ",
+   "{\"log.level\":\"error\",\"@timestamp\":\"2026-11-14T15:43:44.768Z\",\"log.logger\":\"publisher_pipeline_output\",\"log.origin\":{\"function\":\"github.com/elastic/beats/v7/libbeat/publisher/pipeline.(*netClientWorker).publishBatch\",\"file.name\":\"pipeline/client_worker.go\",\"file.line\":174},\"message\":\"failed to publis",
+   "{\"log.level\":\"warn\",\"@timestamp\":\"2026-11-14T15:43:44.769Z\",\"log.logger\":\"transport\",\"log.origin\":{\"function\":\"github.com/elastic/elastic-agent-libs/transport/httpcommon.(*HTTPTransportSettings).RoundTripper.NetDialer.TestNetDialer.func3\",\"file.name\":\"transport/tcp.go\",\"file.line\":53},\"message\":\"DNS"
+  ]
+ },
+ "fluentbit": {
+  "status": "loss",
+  "warn_lines": 2356,
+  "loss_lines": 580,
+  "samples": [
+   "[2026/11/14 15:43:50.956] [error] [engine] chunk '1-1794671022.956052776.flb' cannot be retried: task_id=3, input=systemd.1 > output=es.0",
+   "[2026/11/14 15:43:52.957] [error] [engine] chunk '1-1794671022.962486237.flb' cannot be retried: task_id=2, input=tail.0 > output=es.0",
+   "[2026/11/14 15:43:53.957] [error] [engine] chunk '1-1794671026.960267932.flb' cannot be retried: task_id=13, input=systemd.1 > output=es.0",
+   "[2026/11/14 15:43:54.956] [error] [engine] chunk '1-1794671024.222647006.flb' cannot be retried: task_id=7, input=systemd.1 > output=es.0",
+   "[2026/11/14 15:43:54.956] [error] [engine] chunk '1-1794671026.963716429.flb' cannot be retried: task_id=12, input=tail.0 > output=es.0"
+  ]
+ },
+ "vector": {
+  "status": "loss",
+  "warn_lines": 18,
+  "loss_lines": 4,
+  "samples": [
+   "2026-11-14T15:44:42.993552Z  WARN sink{component_kind=\"sink\" component_id=es component_type=elasticsearch}:request{request_id=379}:http: vector::internal_events::http_client: Internal log [HTTP error.] is being suppressed to avoid flooding.",
+   "2026-11-14T15:44:42.993621Z  WARN sink{component_kind=\"sink\" component_id=es component_type=elasticsearch}:request{request_id=379}: vector::sinks::util::retries: Internal log [Retrying after error.] is being suppressed to avoid flooding.",
+   "2026-11-14T15:44:58.083106Z  WARN sink{component_kind=\"sink\" component_id=es component_type=elasticsearch}:request{request_id=382}:http: vector::internal_events::http_client: Internal log [HTTP error.] has been suppressed 6 times.",
+   "2026-11-14T15:44:58.083185Z  WARN sink{component_kind=\"sink\" component_id=es component_type=elasticsearch}:request{request_id=382}: vector::sinks::util::retries: Internal log [Retrying after error.] has been suppressed 6 times."
+  ]
+ },
+ "rsyslog": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "journald": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "supervisor": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ }
+}

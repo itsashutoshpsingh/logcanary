@@ -1,0 +1,242 @@
+{
+ "run": "ffb34de2a50d",
+ "condition": "journal_vacuum",
+ "title": "Journal rotate and vacuum to 1 MB mid-stream",
+ "repeat": 2,
+ "params": {
+  "rate": 50,
+  "count": 4000,
+  "size": 256,
+  "sizes": "",
+  "kinds": "plain",
+  "shipper_set": "default",
+  "settle_s": 20
+ },
+ "faults": [
+  {
+   "action": "journal_rotate",
+   "kwargs": {},
+   "offset_s": 30,
+   "start_ns": 1794678375928124045,
+   "end_ns": 1794678376021170144,
+   "error": ""
+  },
+  {
+   "action": "journal_vacuum",
+   "kwargs": {
+    "size": "1M"
+   },
+   "offset_s": 31,
+   "start_ns": 1794678376928084880,
+   "end_ns": 1794678377024217651,
+   "error": ""
+  }
+ ],
+ "t_start_ns": 1794678345926128165,
+ "t_writer_done_ns": 1794678426032311090,
+ "writer": {
+  "run": "ffb34de2a50d",
+  "count": 4000,
+  "srcs": [
+   "syslog",
+   "journald"
+  ],
+  "elapsed_s": 79.98,
+  "achieved_rate": 50.0,
+  "send_errors": 0
+ },
+ "settle": {
+  "waited_s": 35.6,
+  "final_counts": {
+   "filebeat": 8000,
+   "fluentbit": 8000,
+   "vector": 8000
+  },
+  "trail": [
+   {
+    "t_s": 0.3,
+    "counts": {
+     "filebeat": 7013,
+     "fluentbit": 7992,
+     "vector": 7941
+    }
+   },
+   {
+    "t_s": 5.4,
+    "counts": {
+     "filebeat": 7960,
+     "fluentbit": 8000,
+     "vector": 8000
+    }
+   },
+   {
+    "t_s": 10.5,
+    "counts": {
+     "filebeat": 7960,
+     "fluentbit": 8000,
+     "vector": 8000
+    }
+   },
+   {
+    "t_s": 15.5,
+    "counts": {
+     "filebeat": 8000,
+     "fluentbit": 8000,
+     "vector": 8000
+    }
+   },
+   {
+    "t_s": 20.5,
+    "counts": {
+     "filebeat": 8000,
+     "fluentbit": 8000,
+     "vector": 8000
+    }
+   },
+   {
+    "t_s": 25.6,
+    "counts": {
+     "filebeat": 8000,
+     "fluentbit": 8000,
+     "vector": 8000
+    }
+   },
+   {
+    "t_s": 30.6,
+    "counts": {
+     "filebeat": 8000,
+     "fluentbit": 8000,
+     "vector": 8000
+    }
+   },
+   {
+    "t_s": 35.6,
+    "counts": {
+     "filebeat": 8000,
+     "fluentbit": 8000,
+     "vector": 8000
+    }
+   }
+  ]
+ },
+ "preflight": {
+  "restarted": []
+ },
+ "probe_on_disk": {
+  "syslog": 4000,
+  "journald": 2500
+ },
+ "host_supervisor": [],
+ "journald_stderr_tail": [
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Time jumped backwards, rotating.",
+  "Time jumped backwards, rotating.",
+  "Time jumped backwards, rotating.",
+  "Time jumped backwards, rotating.",
+  "Time jumped backwards, rotating.",
+  "Time jumped backwards, rotating.",
+  "Received SIGUSR2 signal from PID 60328, as request to rotate journal, rotating.",
+  "Vacuuming done, freed 0B of archived journals from /var/log/journal/7ccd002c4743424fac1da6e9fb1c6eee.",
+  "Received SIGUSR2 signal from PID 60962, as request to rotate journal, rotating.",
+  "Vacuuming done, freed 0B of archived journals from /var/log/journal/7ccd002c4743424fac1da6e9fb1c6eee.",
+  "Received SIGUSR2 signal from PID 61582, as request to rotate journal, rotating.",
+  "Vacuuming done, freed 0B of archived journals from /var/log/journal/7ccd002c4743424fac1da6e9fb1c6eee.",
+  "Received SIGUSR2 signal from PID 65104, as request to rotate journal, rotating.",
+  "Vacuuming done, freed 0B of archived journals from /var/log/journal/7ccd002c4743424fac1da6e9fb1c6eee.",
+  "Received SIGUSR2 signal from PID 65713, as request to rotate journal, rotating.",
+  "Vacuuming done, freed 0B of archived journals from /var/log/journal/7ccd002c4743424fac1da6e9fb1c6eee."
+ ],
+ "counters_before": {
+  "filebeat": {
+   "acked": 435698,
+   "failed": 14902,
+   "dropped": 0,
+   "pipeline_dropped": 0,
+   "pipeline_failed": 0,
+   "pipeline_retry": 14902
+  },
+  "fluentbit": {
+   "proc_records": 232050,
+   "dropped_records": 201741,
+   "retried_records": 212307,
+   "retries_failed": 5499,
+   "errors": 0
+  },
+  "vector": {
+   "discarded": 0.0,
+   "errors": 0.0,
+   "buffer_discarded": 0.0,
+   "sent_events": 434829.0
+  }
+ },
+ "counters_after": {
+  "filebeat": {
+   "acked": 443699,
+   "failed": 14902,
+   "dropped": 0,
+   "pipeline_dropped": 0,
+   "pipeline_failed": 0,
+   "pipeline_retry": 14902
+  },
+  "fluentbit": {
+   "proc_records": 240051,
+   "dropped_records": 201741,
+   "retried_records": 212307,
+   "retries_failed": 5499,
+   "errors": 0
+  },
+  "vector": {
+   "discarded": 0.0,
+   "errors": 0.0,
+   "buffer_discarded": 0.0,
+   "sent_events": 442830.0
+  }
+ },
+ "mem_mb": {
+  "lc-fluentbit": 10.9,
+  "lc-vector": 52.6,
+  "lc-filebeat": 60.3,
+  "lc-host": 13.4,
+  "lc-es": 1783.8
+ },
+ "states": {
+  "lc-es": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-14T16:49:15.509108197Z",
+   "RestartCount": 0
+  },
+  "lc-host": {
+   "Running": true,
+   "OOMKilled": true,
+   "StartedAt": "2026-11-14T14:15:27.21692039Z",
+   "RestartCount": 0
+  },
+  "lc-filebeat": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-14T15:21:44.543028145Z",
+   "RestartCount": 0
+  },
+  "lc-fluentbit": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-14T15:21:44.544539799Z",
+   "RestartCount": 0
+  },
+  "lc-vector": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-14T15:21:44.548101928Z",
+   "RestartCount": 0
+  }
+ },
+ "restarts_before": {
+  "lc-filebeat": 0,
+  "lc-fluentbit": 0,
+  "lc-vector": 0
+ }
+}

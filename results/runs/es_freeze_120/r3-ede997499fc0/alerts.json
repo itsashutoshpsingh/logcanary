@@ -1,0 +1,43 @@
+{
+ "filebeat": {
+  "status": "loss",
+  "warn_lines": 2,
+  "loss_lines": 2,
+  "samples": [
+   "{\"log.level\":\"error\",\"@timestamp\":\"2026-11-14T17:02:45.747Z\",\"log.logger\":\"elasticsearch\",\"log.origin\":{\"function\":\"github.com/elastic/beats/v7/libbeat/outputs/elasticsearch.(*Client).handleBulkResultError\",\"file.name\":\"elasticsearch/client.go\",\"file.line\":347},\"message\":\"failed to perform any bulk ",
+   "{\"log.level\":\"error\",\"@timestamp\":\"2026-11-14T17:02:47.352Z\",\"log.logger\":\"publisher_pipeline_output\",\"log.origin\":{\"function\":\"github.com/elastic/beats/v7/libbeat/publisher/pipeline.(*netClientWorker).publishBatch\",\"file.name\":\"pipeline/client_worker.go\",\"file.line\":174},\"message\":\"failed to publis"
+  ]
+ },
+ "fluentbit": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "vector": {
+  "status": "loss",
+  "warn_lines": 2,
+  "loss_lines": 1,
+  "samples": [
+   "2026-11-14T17:02:17.037464Z  WARN sink{component_kind=\"sink\" component_id=es component_type=elasticsearch}:request{request_id=711}: vector::sinks::util::retries: Internal log [Request timed out. If this happens often while the events are actually reaching their destination, try decreasing `batch.max"
+  ]
+ },
+ "rsyslog": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "journald": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "supervisor": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ }
+}

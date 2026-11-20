@@ -1,0 +1,224 @@
+{
+ "run": "de58dc32c41b",
+ "condition": "mangling",
+ "title": "Multiline, unicode and control characters",
+ "repeat": 3,
+ "params": {
+  "rate": 20,
+  "count": 1200,
+  "size": 256,
+  "sizes": "",
+  "kinds": "plain,multiline,unicode,control",
+  "shipper_set": "default",
+  "settle_s": 20,
+  "host": "noble"
+ },
+ "faults": [],
+ "t_start_ns": 1795136613847430790,
+ "t_writer_done_ns": 1795136674033900020,
+ "writer": {
+  "run": "de58dc32c41b",
+  "count": 1200,
+  "srcs": [
+   "syslog",
+   "journald"
+  ],
+  "elapsed_s": 59.95,
+  "achieved_rate": 20.0,
+  "send_errors": 0
+ },
+ "settle": {
+  "waited_s": 35.5,
+  "final_counts": {
+   "filebeat": 2400,
+   "fluentbit": 2400,
+   "vector": 2400
+  },
+  "trail": [
+   {
+    "t_s": 0.2,
+    "counts": {
+     "filebeat": 1986,
+     "fluentbit": 2366,
+     "vector": 2392
+    }
+   },
+   {
+    "t_s": 5.3,
+    "counts": {
+     "filebeat": 2374,
+     "fluentbit": 2400,
+     "vector": 2400
+    }
+   },
+   {
+    "t_s": 10.3,
+    "counts": {
+     "filebeat": 2374,
+     "fluentbit": 2400,
+     "vector": 2400
+    }
+   },
+   {
+    "t_s": 15.4,
+    "counts": {
+     "filebeat": 2400,
+     "fluentbit": 2400,
+     "vector": 2400
+    }
+   },
+   {
+    "t_s": 20.4,
+    "counts": {
+     "filebeat": 2400,
+     "fluentbit": 2400,
+     "vector": 2400
+    }
+   },
+   {
+    "t_s": 25.4,
+    "counts": {
+     "filebeat": 2400,
+     "fluentbit": 2400,
+     "vector": 2400
+    }
+   },
+   {
+    "t_s": 30.5,
+    "counts": {
+     "filebeat": 2400,
+     "fluentbit": 2400,
+     "vector": 2400
+    }
+   },
+   {
+    "t_s": 35.5,
+    "counts": {
+     "filebeat": 2400,
+     "fluentbit": 2400,
+     "vector": 2400
+    }
+   }
+  ]
+ },
+ "preflight": {
+  "restarted": []
+ },
+ "probe_on_disk": {
+  "syslog": 1200,
+  "journald": 1200
+ },
+ "host_supervisor": [],
+ "journald_stderr_tail": [
+  "Collecting audit messages is enabled.",
+  "Failed to join audit multicast group. The kernel is probably too old or multicast reading is not supported. Ignoring: Operation not permitted",
+  "File /var/log/journal/7ccd002c4743424fac1da6e9fb1c6eee/system.journal corrupted or uncleanly shut down, renaming and replacing.",
+  "Under memory pressure, flushing caches.",
+  "Collecting audit messages is enabled.",
+  "Failed to join audit multicast group. The kernel is probably too old or multicast reading is not supported. Ignoring: Operation not permitted",
+  "Under memory pressure, flushing caches.",
+  "Received SIGUSR2 signal from PID 77393, as request to rotate journal, rotating.",
+  "Vacuuming done, freed 0B of archived journals from /var/log/journal/7ccd002c4743424fac1da6e9fb1c6eee.",
+  "Collecting audit messages is enabled.",
+  "Failed to join audit multicast group. The kernel is probably too old or multicast reading is not supported. Ignoring: Operation not permitted",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Received SIGUSR2 signal from PID 859, as request to rotate journal, rotating.",
+  "Vacuuming done, freed 0B of archived journals from /var/log/journal/7ccd002c4743424fac1da6e9fb1c6eee."
+ ],
+ "counters_before": {
+  "filebeat": {
+   "acked": 4801,
+   "failed": 0,
+   "dropped": 0,
+   "pipeline_dropped": 0,
+   "pipeline_failed": 0,
+   "pipeline_retry": 0
+  },
+  "fluentbit": {
+   "proc_records": 4800,
+   "dropped_records": 0,
+   "retried_records": 0,
+   "retries_failed": 0,
+   "errors": 0
+  },
+  "vector": {
+   "discarded": 0.0,
+   "errors": 0.0,
+   "buffer_discarded": 0.0,
+   "sent_events": 4801.0
+  }
+ },
+ "counters_after": {
+  "filebeat": {
+   "acked": 7201,
+   "failed": 0,
+   "dropped": 0,
+   "pipeline_dropped": 0,
+   "pipeline_failed": 0,
+   "pipeline_retry": 0
+  },
+  "fluentbit": {
+   "proc_records": 7200,
+   "dropped_records": 0,
+   "retried_records": 0,
+   "retries_failed": 0,
+   "errors": 0
+  },
+  "vector": {
+   "discarded": 0.0,
+   "errors": 0.0,
+   "buffer_discarded": 0.0,
+   "sent_events": 7201.0
+  }
+ },
+ "mem_mb": {
+  "lc-fluentbit": 6.3,
+  "lc-vector": 43.7,
+  "lc-filebeat": 50.9,
+  "lc-host": 18.2,
+  "lc-es": 1744.9
+ },
+ "states": {
+  "lc-es": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-20T00:56:00.91457981Z",
+   "RestartCount": 0
+  },
+  "lc-host": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-20T00:56:01.865968383Z",
+   "RestartCount": 0
+  },
+  "lc-filebeat": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-20T00:58:53.851852629Z",
+   "RestartCount": 0
+  },
+  "lc-fluentbit": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-20T00:58:54.300798396Z",
+   "RestartCount": 0
+  },
+  "lc-vector": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-20T00:58:54.703182073Z",
+   "RestartCount": 0
+  }
+ },
+ "restarts_before": {
+  "lc-filebeat": 0,
+  "lc-fluentbit": 0,
+  "lc-vector": 0
+ }
+}

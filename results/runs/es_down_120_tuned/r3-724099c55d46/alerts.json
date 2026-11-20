@@ -1,0 +1,55 @@
+{
+ "filebeat": {
+  "status": "warn",
+  "warn_lines": 23,
+  "loss_lines": 0,
+  "samples": [
+   "{\"log.level\":\"error\",\"@timestamp\":\"2026-11-20T02:06:46.480Z\",\"log.logger\":\"elasticsearch.esclientleg\",\"log.origin\":{\"function\":\"github.com/elastic/elastic-agent-libs/transport/httpcommon.(*HTTPTransportSettings).RoundTripper.LoggingDialer.func1\",\"file.name\":\"transport/logging.go\",\"file.line\":39},\"me",
+   "{\"log.level\":\"error\",\"@timestamp\":\"2026-11-20T02:06:46.480Z\",\"log.logger\":\"elasticsearch\",\"log.origin\":{\"function\":\"github.com/elastic/beats/v7/libbeat/outputs/elasticsearch.(*Client).handleBulkResultError\",\"file.name\":\"elasticsearch/client.go\",\"file.line\":347},\"message\":\"failed to perform any bulk ",
+   "{\"log.level\":\"error\",\"@timestamp\":\"2026-11-20T02:06:47.506Z\",\"log.logger\":\"publisher_pipeline_output\",\"log.origin\":{\"function\":\"github.com/elastic/beats/v7/libbeat/publisher/pipeline.(*netClientWorker).publishBatch\",\"file.name\":\"pipeline/client_worker.go\",\"file.line\":174},\"message\":\"failed to publis",
+   "{\"log.level\":\"error\",\"@timestamp\":\"2026-11-20T02:06:47.507Z\",\"log.logger\":\"elasticsearch.esclientleg\",\"log.origin\":{\"function\":\"github.com/elastic/elastic-agent-libs/transport/httpcommon.(*HTTPTransportSettings).RoundTripper.LoggingDialer.func1\",\"file.name\":\"transport/logging.go\",\"file.line\":39},\"me",
+   "{\"log.level\":\"error\",\"@timestamp\":\"2026-11-20T02:06:49.474Z\",\"log.logger\":\"publisher_pipeline_output\",\"log.origin\":{\"function\":\"github.com/elastic/beats/v7/libbeat/publisher/pipeline.(*netClientWorker).run\",\"file.name\":\"pipeline/client_worker.go\",\"file.line\":149},\"message\":\"Failed to connect to back"
+  ]
+ },
+ "fluentbit": {
+  "status": "warn",
+  "warn_lines": 1959,
+  "loss_lines": 0,
+  "samples": [
+   "[2026/11/20 02:06:46.215] [ warn] [engine] failed to flush chunk '1-1795140405.229412181.flb', retry in 7 seconds: task_id=0, input=tail.0 > output=es.0 (out_id=0)",
+   "[2026/11/20 02:06:46.215] [ warn] [engine] failed to flush chunk '1-1795140405.215545049.flb', retry in 8 seconds: task_id=1, input=systemd.1 > output=es.0 (out_id=0)",
+   "[2026/11/20 02:06:47.214] [ warn] [engine] failed to flush chunk '1-1795140406.214195945.flb', retry in 9 seconds: task_id=3, input=systemd.1 > output=es.0 (out_id=0)",
+   "[2026/11/20 02:06:47.214] [ warn] [engine] failed to flush chunk '1-1795140406.229503010.flb', retry in 9 seconds: task_id=2, input=tail.0 > output=es.0 (out_id=0)",
+   "[2026/11/20 02:06:48.215] [ warn] [engine] failed to flush chunk '1-1795140407.213601169.flb', retry in 8 seconds: task_id=5, input=systemd.1 > output=es.0 (out_id=0)"
+  ]
+ },
+ "vector": {
+  "status": "loss",
+  "warn_lines": 15,
+  "loss_lines": 4,
+  "samples": [
+   "2026-11-20T02:06:47.390793Z  WARN sink{component_kind=\"sink\" component_id=es component_type=elasticsearch}:request{request_id=78}:http: vector::internal_events::http_client: Internal log [HTTP error.] is being suppressed to avoid flooding.",
+   "2026-11-20T02:06:47.391098Z  WARN sink{component_kind=\"sink\" component_id=es component_type=elasticsearch}:request{request_id=78}: vector::sinks::util::retries: Internal log [Retrying after error.] is being suppressed to avoid flooding.",
+   "2026-11-20T02:07:03.359942Z  WARN sink{component_kind=\"sink\" component_id=es component_type=elasticsearch}:request{request_id=81}:http: vector::internal_events::http_client: Internal log [HTTP error.] has been suppressed 7 times.",
+   "2026-11-20T02:07:03.361481Z  WARN sink{component_kind=\"sink\" component_id=es component_type=elasticsearch}:request{request_id=81}: vector::sinks::util::retries: Internal log [Retrying after error.] has been suppressed 7 times."
+  ]
+ },
+ "rsyslog": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "journald": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "supervisor": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ }
+}

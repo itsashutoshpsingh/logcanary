@@ -1,0 +1,331 @@
+{
+ "run": "4959491486eb",
+ "condition": "rotate_copytruncate",
+ "title": "Log rotation with copytruncate",
+ "repeat": 1,
+ "params": {
+  "rate": 50,
+  "count": 4000,
+  "size": 256,
+  "sizes": "",
+  "kinds": "plain",
+  "shipper_set": "default",
+  "settle_s": 20,
+  "host": "noble"
+ },
+ "faults": [
+  {
+   "action": "logrotate",
+   "kwargs": {
+    "conf": "copytruncate"
+   },
+   "offset_s": 30,
+   "start_ns": 1795139242474940139,
+   "end_ns": 1795139242593045957,
+   "error": ""
+  }
+ ],
+ "t_start_ns": 1795139212474368833,
+ "t_writer_done_ns": 1795139292636662162,
+ "writer": {
+  "run": "4959491486eb",
+  "count": 4000,
+  "srcs": [
+   "syslog",
+   "journald"
+  ],
+  "elapsed_s": 79.98,
+  "achieved_rate": 50.0,
+  "send_errors": 0
+ },
+ "settle": {
+  "waited_s": 95.2,
+  "final_counts": {
+   "filebeat": 7902,
+   "fluentbit": 8000,
+   "vector": 8000
+  },
+  "trail": [
+   {
+    "t_s": 0.0,
+    "counts": {
+     "filebeat": 6951,
+     "fluentbit": 7958,
+     "vector": 7943
+    }
+   },
+   {
+    "t_s": 5.0,
+    "counts": {
+     "filebeat": 7902,
+     "fluentbit": 8000,
+     "vector": 8000
+    }
+   },
+   {
+    "t_s": 10.1,
+    "counts": {
+     "filebeat": 7902,
+     "fluentbit": 8000,
+     "vector": 8000
+    }
+   },
+   {
+    "t_s": 15.1,
+    "counts": {
+     "filebeat": 7902,
+     "fluentbit": 8000,
+     "vector": 8000
+    }
+   },
+   {
+    "t_s": 20.1,
+    "counts": {
+     "filebeat": 7902,
+     "fluentbit": 8000,
+     "vector": 8000
+    }
+   },
+   {
+    "t_s": 25.1,
+    "counts": {
+     "filebeat": 7902,
+     "fluentbit": 8000,
+     "vector": 8000
+    }
+   },
+   {
+    "t_s": 30.1,
+    "counts": {
+     "filebeat": 7902,
+     "fluentbit": 8000,
+     "vector": 8000
+    }
+   },
+   {
+    "t_s": 35.1,
+    "counts": {
+     "filebeat": 7902,
+     "fluentbit": 8000,
+     "vector": 8000
+    }
+   },
+   {
+    "t_s": 40.1,
+    "counts": {
+     "filebeat": 7902,
+     "fluentbit": 8000,
+     "vector": 8000
+    }
+   },
+   {
+    "t_s": 45.1,
+    "counts": {
+     "filebeat": 7902,
+     "fluentbit": 8000,
+     "vector": 8000
+    }
+   },
+   {
+    "t_s": 50.1,
+    "counts": {
+     "filebeat": 7902,
+     "fluentbit": 8000,
+     "vector": 8000
+    }
+   },
+   {
+    "t_s": 55.1,
+    "counts": {
+     "filebeat": 7902,
+     "fluentbit": 8000,
+     "vector": 8000
+    }
+   },
+   {
+    "t_s": 60.1,
+    "counts": {
+     "filebeat": 7902,
+     "fluentbit": 8000,
+     "vector": 8000
+    }
+   },
+   {
+    "t_s": 65.1,
+    "counts": {
+     "filebeat": 7902,
+     "fluentbit": 8000,
+     "vector": 8000
+    }
+   },
+   {
+    "t_s": 70.2,
+    "counts": {
+     "filebeat": 7902,
+     "fluentbit": 8000,
+     "vector": 8000
+    }
+   },
+   {
+    "t_s": 75.2,
+    "counts": {
+     "filebeat": 7902,
+     "fluentbit": 8000,
+     "vector": 8000
+    }
+   },
+   {
+    "t_s": 80.2,
+    "counts": {
+     "filebeat": 7902,
+     "fluentbit": 8000,
+     "vector": 8000
+    }
+   },
+   {
+    "t_s": 85.2,
+    "counts": {
+     "filebeat": 7902,
+     "fluentbit": 8000,
+     "vector": 8000
+    }
+   },
+   {
+    "t_s": 90.2,
+    "counts": {
+     "filebeat": 7902,
+     "fluentbit": 8000,
+     "vector": 8000
+    }
+   },
+   {
+    "t_s": 95.2,
+    "counts": {
+     "filebeat": 7902,
+     "fluentbit": 8000,
+     "vector": 8000
+    }
+   }
+  ]
+ },
+ "preflight": {
+  "restarted": []
+ },
+ "probe_on_disk": {
+  "syslog": 4000,
+  "journald": 4000
+ },
+ "host_supervisor": [],
+ "journald_stderr_tail": [
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches."
+ ],
+ "counters_before": {
+  "filebeat": {
+   "acked": 56787,
+   "failed": 0,
+   "dropped": 0,
+   "pipeline_dropped": 0,
+   "pipeline_failed": 0,
+   "pipeline_retry": 0
+  },
+  "fluentbit": {
+   "proc_records": 56786,
+   "dropped_records": 0,
+   "retried_records": 0,
+   "retries_failed": 0,
+   "errors": 0
+  },
+  "vector": {
+   "discarded": 0.0,
+   "errors": 0.0,
+   "buffer_discarded": 0.0,
+   "sent_events": 56787.0
+  }
+ },
+ "counters_after": {
+  "filebeat": {
+   "acked": 64689,
+   "failed": 0,
+   "dropped": 0,
+   "pipeline_dropped": 0,
+   "pipeline_failed": 0,
+   "pipeline_retry": 0
+  },
+  "fluentbit": {
+   "proc_records": 64786,
+   "dropped_records": 0,
+   "retried_records": 0,
+   "retries_failed": 0,
+   "errors": 0
+  },
+  "vector": {
+   "discarded": 0.0,
+   "errors": 0.0,
+   "buffer_discarded": 0.0,
+   "sent_events": 64787.0
+  }
+ },
+ "mem_mb": {
+  "lc-fluentbit": 6.2,
+  "lc-vector": 45.3,
+  "lc-filebeat": 53.3,
+  "lc-host": 70.6,
+  "lc-es": 1590.3
+ },
+ "states": {
+  "lc-es": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-20T00:56:00.91457981Z",
+   "RestartCount": 0
+  },
+  "lc-host": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-20T00:56:01.865968383Z",
+   "RestartCount": 0
+  },
+  "lc-filebeat": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-20T00:58:53.851852629Z",
+   "RestartCount": 0
+  },
+  "lc-fluentbit": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-20T00:58:54.300798396Z",
+   "RestartCount": 0
+  },
+  "lc-vector": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-20T00:58:54.703182073Z",
+   "RestartCount": 0
+  }
+ },
+ "restarts_before": {
+  "lc-filebeat": 0,
+  "lc-fluentbit": 0,
+  "lc-vector": 0
+ }
+}

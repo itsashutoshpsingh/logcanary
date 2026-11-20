@@ -1,0 +1,55 @@
+{
+ "filebeat": {
+  "status": "warn",
+  "warn_lines": 28,
+  "loss_lines": 0,
+  "samples": [
+   "{\"log.level\":\"warn\",\"@timestamp\":\"2026-11-20T02:14:58.625Z\",\"log.logger\":\"transport\",\"log.origin\":{\"function\":\"github.com/elastic/elastic-agent-libs/transport/httpcommon.(*HTTPTransportSettings).RoundTripper.NetDialer.TestNetDialer.func3\",\"file.name\":\"transport/tcp.go\",\"file.line\":53},\"message\":\"DNS",
+   "{\"log.level\":\"error\",\"@timestamp\":\"2026-11-20T02:14:58.625Z\",\"log.logger\":\"elasticsearch.esclientleg\",\"log.origin\":{\"function\":\"github.com/elastic/elastic-agent-libs/transport/httpcommon.(*HTTPTransportSettings).RoundTripper.LoggingDialer.func1\",\"file.name\":\"transport/logging.go\",\"file.line\":39},\"me",
+   "{\"log.level\":\"error\",\"@timestamp\":\"2026-11-20T02:14:58.625Z\",\"log.logger\":\"elasticsearch\",\"log.origin\":{\"function\":\"github.com/elastic/beats/v7/libbeat/outputs/elasticsearch.(*Client).handleBulkResultError\",\"file.name\":\"elasticsearch/client.go\",\"file.line\":347},\"message\":\"failed to perform any bulk ",
+   "{\"log.level\":\"error\",\"@timestamp\":\"2026-11-20T02:15:00.235Z\",\"log.logger\":\"publisher_pipeline_output\",\"log.origin\":{\"function\":\"github.com/elastic/beats/v7/libbeat/publisher/pipeline.(*netClientWorker).publishBatch\",\"file.name\":\"pipeline/client_worker.go\",\"file.line\":174},\"message\":\"failed to publis",
+   "{\"log.level\":\"warn\",\"@timestamp\":\"2026-11-20T02:15:00.237Z\",\"log.logger\":\"transport\",\"log.origin\":{\"function\":\"github.com/elastic/elastic-agent-libs/transport/httpcommon.(*HTTPTransportSettings).RoundTripper.NetDialer.TestNetDialer.func3\",\"file.name\":\"transport/tcp.go\",\"file.line\":53},\"message\":\"DNS"
+  ]
+ },
+ "fluentbit": {
+  "status": "warn",
+  "warn_lines": 2268,
+  "loss_lines": 0,
+  "samples": [
+   "[2026/11/20 02:15:00.213] [ warn] [net] getaddrinfo(host='es', err=11): Could not contact DNS servers",
+   "[2026/11/20 02:15:00.213] [ warn] [net] getaddrinfo(host='es', err=11): Could not contact DNS servers",
+   "[2026/11/20 02:15:00.215] [ warn] [engine] failed to flush chunk '1-1795140899.215388105.flb', retry in 10 seconds: task_id=3, input=systemd.1 > output=es.0 (out_id=0)",
+   "[2026/11/20 02:15:00.215] [ warn] [engine] failed to flush chunk '1-1795140899.217952240.flb', retry in 7 seconds: task_id=2, input=tail.0 > output=es.0 (out_id=0)",
+   "[2026/11/20 02:15:01.213] [ warn] [net] getaddrinfo(host='es', err=11): Could not contact DNS servers"
+  ]
+ },
+ "vector": {
+  "status": "loss",
+  "warn_lines": 16,
+  "loss_lines": 4,
+  "samples": [
+   "2026-11-20T02:15:59.005149Z  WARN sink{component_kind=\"sink\" component_id=es component_type=elasticsearch}:request{request_id=109}:http: vector::internal_events::http_client: Internal log [HTTP error.] is being suppressed to avoid flooding.",
+   "2026-11-20T02:15:59.005183Z  WARN sink{component_kind=\"sink\" component_id=es component_type=elasticsearch}:request{request_id=109}: vector::sinks::util::retries: Internal log [Retrying after error.] is being suppressed to avoid flooding.",
+   "2026-11-20T02:16:14.085330Z  WARN sink{component_kind=\"sink\" component_id=es component_type=elasticsearch}:request{request_id=108}:http: vector::internal_events::http_client: Internal log [HTTP error.] has been suppressed 6 times.",
+   "2026-11-20T02:16:14.085439Z  WARN sink{component_kind=\"sink\" component_id=es component_type=elasticsearch}:request{request_id=108}: vector::sinks::util::retries: Internal log [Retrying after error.] has been suppressed 6 times."
+  ]
+ },
+ "rsyslog": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "journald": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "supervisor": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ }
+}

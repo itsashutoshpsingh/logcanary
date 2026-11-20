@@ -1,0 +1,50 @@
+{
+ "filebeat": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "fluentbit": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "vector": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "rsyslog": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "journald": {
+  "status": "warn",
+  "warn_lines": 114,
+  "loss_lines": 0,
+  "samples": [
+   "Journal started",
+   "System Journal (/var/log/journal/7ccd002c4743424fac1da6e9fb1c6eee) is 14.6M, max 135.8M, 121.1M free.",
+   "Journal started",
+   "System Journal (/var/log/journal/7ccd002c4743424fac1da6e9fb1c6eee) is 14.6M, max 135.6M, 121.0M free.",
+   "Journal started"
+  ]
+ },
+ "supervisor": {
+  "status": "warn",
+  "warn_lines": 57,
+  "loss_lines": 0,
+  "samples": [
+   "2026-11-20T01:09:38.484922807Z start journald",
+   "2026-11-20T01:09:39.519006698Z start journald",
+   "2026-11-20T01:09:40.535290510Z start journald",
+   "2026-11-20T01:09:41.550673081Z start journald",
+   "2026-11-20T01:09:42.563170248Z start journald"
+  ]
+ }
+}

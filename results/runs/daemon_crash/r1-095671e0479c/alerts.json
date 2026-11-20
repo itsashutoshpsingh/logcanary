@@ -1,0 +1,48 @@
+{
+ "filebeat": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "fluentbit": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "vector": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "rsyslog": {
+  "status": "warn",
+  "warn_lines": 3,
+  "loss_lines": 0,
+  "samples": [
+   "2026-11-14T17:50:09.450289+00:00 lab-host rsyslogd: rsyslogd's groupid changed to 101",
+   "2026-11-14T17:50:09.450381+00:00 lab-host rsyslogd: rsyslogd's userid changed to 100",
+   "2026-11-14T17:50:09.450395+00:00 lab-host rsyslogd: [origin software=\"rsyslogd\" swVersion=\"8.2312.0\" x-pid=\"66999\" x-info=\"https://www.rsyslog.com\"] start"
+  ]
+ },
+ "journald": {
+  "status": "warn",
+  "warn_lines": 2,
+  "loss_lines": 0,
+  "samples": [
+   "Journal started",
+   "System Journal (/var/log/journal/7ccd002c4743424fac1da6e9fb1c6eee) is 16.0M, max 430.6M, 414.6M free."
+  ]
+ },
+ "supervisor": {
+  "status": "warn",
+  "warn_lines": 2,
+  "loss_lines": 0,
+  "samples": [
+   "2026-11-14T17:50:08.403368863Z start journald",
+   "2026-11-14T17:50:08.408910928Z start rsyslog"
+  ]
+ }
+}

@@ -1,0 +1,416 @@
+{
+ "run": "b7082692eed5",
+ "condition": "clock_fwd_2h",
+ "title": "Host clock +2 h from 30 s to 90 s",
+ "repeat": 1,
+ "params": {
+  "rate": 20,
+  "count": 2400,
+  "size": 256,
+  "sizes": "",
+  "kinds": "plain",
+  "shipper_set": "default",
+  "settle_s": 20,
+  "host": "noble"
+ },
+ "faults": [
+  {
+   "action": "clock",
+   "kwargs": {
+    "offset_s": 7200
+   },
+   "offset_s": 30,
+   "start_ns": 1795136745121302813,
+   "end_ns": 1795136745229156050,
+   "error": ""
+  },
+  {
+   "action": "clock",
+   "kwargs": {
+    "offset_s": 0
+   },
+   "offset_s": 90,
+   "start_ns": 1795136805121180499,
+   "end_ns": 1795136805224327817,
+   "error": ""
+  }
+ ],
+ "t_start_ns": 1795136715120558119,
+ "t_writer_done_ns": 1795136835236932802,
+ "writer": {
+  "run": "b7082692eed5",
+  "count": 2400,
+  "srcs": [
+   "syslog",
+   "journald"
+  ],
+  "elapsed_s": 119.95,
+  "achieved_rate": 20.0,
+  "send_errors": 1147
+ },
+ "settle": {
+  "waited_s": 105.7,
+  "final_counts": {
+   "filebeat": 3625,
+   "fluentbit": 3625,
+   "vector": 3625
+  },
+  "trail": [
+   {
+    "t_s": 0.2,
+    "counts": {
+     "filebeat": 3247,
+     "fluentbit": 3623,
+     "vector": 3592
+    }
+   },
+   {
+    "t_s": 5.3,
+    "counts": {
+     "filebeat": 3618,
+     "fluentbit": 3625,
+     "vector": 3625
+    }
+   },
+   {
+    "t_s": 10.3,
+    "counts": {
+     "filebeat": 3618,
+     "fluentbit": 3625,
+     "vector": 3625
+    }
+   },
+   {
+    "t_s": 15.4,
+    "counts": {
+     "filebeat": 3625,
+     "fluentbit": 3625,
+     "vector": 3625
+    }
+   },
+   {
+    "t_s": 20.4,
+    "counts": {
+     "filebeat": 3625,
+     "fluentbit": 3625,
+     "vector": 3625
+    }
+   },
+   {
+    "t_s": 25.4,
+    "counts": {
+     "filebeat": 3625,
+     "fluentbit": 3625,
+     "vector": 3625
+    }
+   },
+   {
+    "t_s": 30.4,
+    "counts": {
+     "filebeat": 3625,
+     "fluentbit": 3625,
+     "vector": 3625
+    }
+   },
+   {
+    "t_s": 35.4,
+    "counts": {
+     "filebeat": 3625,
+     "fluentbit": 3625,
+     "vector": 3625
+    }
+   },
+   {
+    "t_s": 40.5,
+    "counts": {
+     "filebeat": 3625,
+     "fluentbit": 3625,
+     "vector": 3625
+    }
+   },
+   {
+    "t_s": 45.5,
+    "counts": {
+     "filebeat": 3625,
+     "fluentbit": 3625,
+     "vector": 3625
+    }
+   },
+   {
+    "t_s": 50.5,
+    "counts": {
+     "filebeat": 3625,
+     "fluentbit": 3625,
+     "vector": 3625
+    }
+   },
+   {
+    "t_s": 55.5,
+    "counts": {
+     "filebeat": 3625,
+     "fluentbit": 3625,
+     "vector": 3625
+    }
+   },
+   {
+    "t_s": 60.5,
+    "counts": {
+     "filebeat": 3625,
+     "fluentbit": 3625,
+     "vector": 3625
+    }
+   },
+   {
+    "t_s": 65.5,
+    "counts": {
+     "filebeat": 3625,
+     "fluentbit": 3625,
+     "vector": 3625
+    }
+   },
+   {
+    "t_s": 70.6,
+    "counts": {
+     "filebeat": 3625,
+     "fluentbit": 3625,
+     "vector": 3625
+    }
+   },
+   {
+    "t_s": 75.6,
+    "counts": {
+     "filebeat": 3625,
+     "fluentbit": 3625,
+     "vector": 3625
+    }
+   },
+   {
+    "t_s": 80.6,
+    "counts": {
+     "filebeat": 3625,
+     "fluentbit": 3625,
+     "vector": 3625
+    }
+   },
+   {
+    "t_s": 85.6,
+    "counts": {
+     "filebeat": 3625,
+     "fluentbit": 3625,
+     "vector": 3625
+    }
+   },
+   {
+    "t_s": 90.7,
+    "counts": {
+     "filebeat": 3625,
+     "fluentbit": 3625,
+     "vector": 3625
+    }
+   },
+   {
+    "t_s": 95.7,
+    "counts": {
+     "filebeat": 3625,
+     "fluentbit": 3625,
+     "vector": 3625
+    }
+   },
+   {
+    "t_s": 100.7,
+    "counts": {
+     "filebeat": 3625,
+     "fluentbit": 3625,
+     "vector": 3625
+    }
+   },
+   {
+    "t_s": 105.7,
+    "counts": {
+     "filebeat": 3625,
+     "fluentbit": 3625,
+     "vector": 3625
+    }
+   }
+  ]
+ },
+ "preflight": {
+  "restarted": []
+ },
+ "probe_on_disk": {
+  "syslog": 2400,
+  "journald": 1225
+ },
+ "host_supervisor": [
+  "2026-11-20T01:05:47.944871582Z start journald",
+  "2026-11-20T01:05:48.965485391Z start journald",
+  "2026-11-20T01:05:49.981085242Z start journald",
+  "2026-11-20T01:05:50.996925554Z start journald",
+  "2026-11-20T01:05:52.017557900Z start journald",
+  "2026-11-20T01:05:53.031339642Z start journald",
+  "2026-11-20T01:05:54.048395422Z start journald",
+  "2026-11-20T01:05:55.065300347Z start journald",
+  "2026-11-20T01:05:56.078475213Z start journald",
+  "2026-11-20T01:05:57.091432446Z start journald",
+  "2026-11-20T01:05:58.102714362Z start journald",
+  "2026-11-20T01:05:59.115000850Z start journald",
+  "2026-11-20T01:06:00.131276426Z start journald",
+  "2026-11-20T01:06:01.142816990Z start journald",
+  "2026-11-20T01:06:02.158635799Z start journald",
+  "2026-11-20T01:06:03.212749628Z start journald",
+  "2026-11-20T01:06:04.232596671Z start journald",
+  "2026-11-20T01:06:05.248543974Z start journald",
+  "2026-11-20T01:06:06.259144194Z start journald",
+  "2026-11-20T01:06:07.269930672Z start journald",
+  "2026-11-20T01:06:08.284338112Z start journald",
+  "2026-11-20T01:06:09.295702975Z start journald",
+  "2026-11-20T01:06:10.307274212Z start journald",
+  "2026-11-20T01:06:11.319632909Z start journald",
+  "2026-11-20T01:06:12.332058666Z start journald",
+  "2026-11-20T01:06:13.343907642Z start journald",
+  "2026-11-20T01:06:14.360254635Z start journald",
+  "2026-11-20T01:06:15.375166070Z start journald",
+  "2026-11-20T01:06:16.385157630Z start journald",
+  "2026-11-20T01:06:17.397717976Z start journald",
+  "2026-11-20T01:06:18.412293477Z start journald",
+  "2026-11-20T01:06:19.423447906Z start journald",
+  "2026-11-20T01:06:20.434185535Z start journald",
+  "2026-11-20T01:06:21.447787113Z start journald",
+  "2026-11-20T01:06:22.459095219Z start journald",
+  "2026-11-20T01:06:23.469079798Z start journald",
+  "2026-11-20T01:06:24.482465325Z start journald",
+  "2026-11-20T01:06:25.496364504Z start journald",
+  "2026-11-20T01:06:26.511423286Z start journald",
+  "2026-11-20T01:06:27.525906211Z start journald",
+  "2026-11-20T01:06:28.537353238Z start journald",
+  "2026-11-20T01:06:29.551318050Z start journald",
+  "2026-11-20T01:06:30.562895303Z start journald",
+  "2026-11-20T01:06:31.577487313Z start journald",
+  "2026-11-20T01:06:32.593255570Z start journald",
+  "2026-11-20T01:06:33.606401428Z start journald",
+  "2026-11-20T01:06:34.620563167Z start journald",
+  "2026-11-20T01:06:35.636325620Z start journald",
+  "2026-11-20T01:06:36.652754594Z start journald",
+  "2026-11-20T01:06:37.663559127Z start journald",
+  "2026-11-20T01:06:38.677146800Z start journald",
+  "2026-11-20T01:06:39.690720053Z start journald",
+  "2026-11-20T01:06:40.700958468Z start journald",
+  "2026-11-20T01:06:41.716461593Z start journald",
+  "2026-11-20T01:06:42.731819984Z start journald",
+  "2026-11-20T01:06:43.743246357Z start journald",
+  "2026-11-20T01:06:44.754223199Z start journald",
+  "2026-11-20T01:06:45.765238256Z start journald"
+ ],
+ "journald_stderr_tail": [
+  "Failed to join audit multicast group. The kernel is probably too old or multicast reading is not supported. Ignoring: Operation not permitted",
+  "Failed to run event loop: Invalid argument",
+  "Collecting audit messages is enabled.",
+  "Failed to join audit multicast group. The kernel is probably too old or multicast reading is not supported. Ignoring: Operation not permitted",
+  "Failed to run event loop: Invalid argument",
+  "Collecting audit messages is enabled.",
+  "Failed to join audit multicast group. The kernel is probably too old or multicast reading is not supported. Ignoring: Operation not permitted",
+  "Failed to run event loop: Invalid argument",
+  "Collecting audit messages is enabled.",
+  "Failed to join audit multicast group. The kernel is probably too old or multicast reading is not supported. Ignoring: Operation not permitted",
+  "Failed to run event loop: Invalid argument",
+  "Collecting audit messages is enabled.",
+  "Failed to join audit multicast group. The kernel is probably too old or multicast reading is not supported. Ignoring: Operation not permitted",
+  "Failed to run event loop: Invalid argument",
+  "Collecting audit messages is enabled.",
+  "Failed to join audit multicast group. The kernel is probably too old or multicast reading is not supported. Ignoring: Operation not permitted",
+  "/var/log/journal/7ccd002c4743424fac1da6e9fb1c6eee/system.journal: Realtime clock jumped backwards relative to last journal entry, rotating.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches."
+ ],
+ "counters_before": {
+  "filebeat": {
+   "acked": 7201,
+   "failed": 0,
+   "dropped": 0,
+   "pipeline_dropped": 0,
+   "pipeline_failed": 0,
+   "pipeline_retry": 0
+  },
+  "fluentbit": {
+   "proc_records": 7200,
+   "dropped_records": 0,
+   "retried_records": 0,
+   "retries_failed": 0,
+   "errors": 0
+  },
+  "vector": {
+   "discarded": 0.0,
+   "errors": 0.0,
+   "buffer_discarded": 0.0,
+   "sent_events": 7201.0
+  }
+ },
+ "counters_after": {
+  "filebeat": {
+   "acked": 10942,
+   "failed": 0,
+   "dropped": 0,
+   "pipeline_dropped": 0,
+   "pipeline_failed": 0,
+   "pipeline_retry": 0
+  },
+  "fluentbit": {
+   "proc_records": 10941,
+   "dropped_records": 0,
+   "retried_records": 0,
+   "retries_failed": 0,
+   "errors": 0
+  },
+  "vector": {
+   "discarded": 0.0,
+   "errors": 0.0,
+   "buffer_discarded": 0.0,
+   "sent_events": 10942.0
+  }
+ },
+ "mem_mb": {
+  "lc-fluentbit": 6.5,
+  "lc-vector": 43.5,
+  "lc-filebeat": 51.1,
+  "lc-host": 24.9,
+  "lc-es": 1751.0
+ },
+ "states": {
+  "lc-es": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-20T00:56:00.91457981Z",
+   "RestartCount": 0
+  },
+  "lc-host": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-20T00:56:01.865968383Z",
+   "RestartCount": 0
+  },
+  "lc-filebeat": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-20T00:58:53.851852629Z",
+   "RestartCount": 0
+  },
+  "lc-fluentbit": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-20T00:58:54.300798396Z",
+   "RestartCount": 0
+  },
+  "lc-vector": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-20T00:58:54.703182073Z",
+   "RestartCount": 0
+  }
+ },
+ "restarts_before": {
+  "lc-filebeat": 0,
+  "lc-fluentbit": 0,
+  "lc-vector": 0
+ }
+}

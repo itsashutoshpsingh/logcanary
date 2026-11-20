@@ -1,0 +1,44 @@
+{
+ "filebeat": {
+  "status": "warn",
+  "warn_lines": 1,
+  "loss_lines": 0,
+  "samples": [
+   "{\"log.level\":\"error\",\"@timestamp\":\"2026-11-14T18:23:44.727Z\",\"log.logger\":\"input.journald.reader.journalctl-runner\",\"log.origin\":{\"function\":\"github.com/elastic/beats/v7/filebeat/input/journald.(*journald).Run.NewFactory.func1.3\",\"file.name\":\"journalctl/journalctl.go\",\"file.line\":149},\"message\":\"jou"
+  ]
+ },
+ "fluentbit": {
+  "status": "warn",
+  "warn_lines": 1,
+  "loss_lines": 0,
+  "samples": [
+   "[2026/11/14 18:23:44.664] [ warn] [engine] service will shutdown in max 5 seconds"
+  ]
+ },
+ "vector": {
+  "status": "warn",
+  "warn_lines": 1,
+  "loss_lines": 0,
+  "samples": [
+   "2026-11-14T18:23:44.667246Z ERROR source{component_kind=\"source\" component_id=journal component_type=journald}: vector_common::finalizer: FinalizerSet task ended prematurely. error=channel closed"
+  ]
+ },
+ "rsyslog": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "journald": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "supervisor": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ }
+}

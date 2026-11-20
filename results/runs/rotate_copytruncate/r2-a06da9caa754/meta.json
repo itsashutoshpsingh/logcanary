@@ -1,0 +1,346 @@
+{
+ "run": "a06da9caa754",
+ "condition": "rotate_copytruncate",
+ "title": "Log rotation with copytruncate",
+ "repeat": 2,
+ "params": {
+  "rate": 50,
+  "count": 4000,
+  "size": 256,
+  "sizes": "",
+  "kinds": "plain",
+  "shipper_set": "default",
+  "settle_s": 20
+ },
+ "faults": [
+  {
+   "action": "logrotate",
+   "kwargs": {
+    "conf": "copytruncate"
+   },
+   "offset_s": 30,
+   "start_ns": 1794677883613677989,
+   "end_ns": 1794677883745810470,
+   "error": ""
+  }
+ ],
+ "t_start_ns": 1794677853613142208,
+ "t_writer_done_ns": 1794677933731318459,
+ "writer": {
+  "run": "a06da9caa754",
+  "count": 4000,
+  "srcs": [
+   "syslog",
+   "journald"
+  ],
+  "elapsed_s": 79.98,
+  "achieved_rate": 50.0,
+  "send_errors": 0
+ },
+ "settle": {
+  "waited_s": 105.5,
+  "final_counts": {
+   "filebeat": 7961,
+   "fluentbit": 8000,
+   "vector": 7999
+  },
+  "trail": [
+   {
+    "t_s": 0.1,
+    "counts": {
+     "filebeat": 6974,
+     "fluentbit": 7918,
+     "vector": 7923
+    }
+   },
+   {
+    "t_s": 5.2,
+    "counts": {
+     "filebeat": 7921,
+     "fluentbit": 8000,
+     "vector": 7999
+    }
+   },
+   {
+    "t_s": 10.2,
+    "counts": {
+     "filebeat": 7921,
+     "fluentbit": 8000,
+     "vector": 7999
+    }
+   },
+   {
+    "t_s": 15.2,
+    "counts": {
+     "filebeat": 7961,
+     "fluentbit": 8000,
+     "vector": 7999
+    }
+   },
+   {
+    "t_s": 20.2,
+    "counts": {
+     "filebeat": 7961,
+     "fluentbit": 8000,
+     "vector": 7999
+    }
+   },
+   {
+    "t_s": 25.2,
+    "counts": {
+     "filebeat": 7961,
+     "fluentbit": 8000,
+     "vector": 7999
+    }
+   },
+   {
+    "t_s": 30.3,
+    "counts": {
+     "filebeat": 7961,
+     "fluentbit": 8000,
+     "vector": 7999
+    }
+   },
+   {
+    "t_s": 35.3,
+    "counts": {
+     "filebeat": 7961,
+     "fluentbit": 8000,
+     "vector": 7999
+    }
+   },
+   {
+    "t_s": 40.3,
+    "counts": {
+     "filebeat": 7961,
+     "fluentbit": 8000,
+     "vector": 7999
+    }
+   },
+   {
+    "t_s": 45.3,
+    "counts": {
+     "filebeat": 7961,
+     "fluentbit": 8000,
+     "vector": 7999
+    }
+   },
+   {
+    "t_s": 50.3,
+    "counts": {
+     "filebeat": 7961,
+     "fluentbit": 8000,
+     "vector": 7999
+    }
+   },
+   {
+    "t_s": 55.3,
+    "counts": {
+     "filebeat": 7961,
+     "fluentbit": 8000,
+     "vector": 7999
+    }
+   },
+   {
+    "t_s": 60.4,
+    "counts": {
+     "filebeat": 7961,
+     "fluentbit": 8000,
+     "vector": 7999
+    }
+   },
+   {
+    "t_s": 65.4,
+    "counts": {
+     "filebeat": 7961,
+     "fluentbit": 8000,
+     "vector": 7999
+    }
+   },
+   {
+    "t_s": 70.4,
+    "counts": {
+     "filebeat": 7961,
+     "fluentbit": 8000,
+     "vector": 7999
+    }
+   },
+   {
+    "t_s": 75.4,
+    "counts": {
+     "filebeat": 7961,
+     "fluentbit": 8000,
+     "vector": 7999
+    }
+   },
+   {
+    "t_s": 80.4,
+    "counts": {
+     "filebeat": 7961,
+     "fluentbit": 8000,
+     "vector": 7999
+    }
+   },
+   {
+    "t_s": 85.4,
+    "counts": {
+     "filebeat": 7961,
+     "fluentbit": 8000,
+     "vector": 7999
+    }
+   },
+   {
+    "t_s": 90.5,
+    "counts": {
+     "filebeat": 7961,
+     "fluentbit": 8000,
+     "vector": 7999
+    }
+   },
+   {
+    "t_s": 95.5,
+    "counts": {
+     "filebeat": 7961,
+     "fluentbit": 8000,
+     "vector": 7999
+    }
+   },
+   {
+    "t_s": 100.5,
+    "counts": {
+     "filebeat": 7961,
+     "fluentbit": 8000,
+     "vector": 7999
+    }
+   },
+   {
+    "t_s": 105.5,
+    "counts": {
+     "filebeat": 7961,
+     "fluentbit": 8000,
+     "vector": 7999
+    }
+   }
+  ]
+ },
+ "preflight": {
+  "restarted": []
+ },
+ "probe_on_disk": {
+  "syslog": 4000,
+  "journald": 4000
+ },
+ "host_supervisor": [],
+ "journald_stderr_tail": [
+  "Vacuuming done, freed 0B of archived journals from /var/log/journal/7ccd002c4743424fac1da6e9fb1c6eee.",
+  "Received SIGUSR2 signal from PID 10143, as request to rotate journal, rotating.",
+  "Vacuuming done, freed 0B of archived journals from /var/log/journal/7ccd002c4743424fac1da6e9fb1c6eee.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Time jumped backwards, rotating.",
+  "Time jumped backwards, rotating.",
+  "Time jumped backwards, rotating.",
+  "Time jumped backwards, rotating.",
+  "Time jumped backwards, rotating.",
+  "Time jumped backwards, rotating.",
+  "Received SIGUSR2 signal from PID 60328, as request to rotate journal, rotating.",
+  "Vacuuming done, freed 0B of archived journals from /var/log/journal/7ccd002c4743424fac1da6e9fb1c6eee.",
+  "Received SIGUSR2 signal from PID 60962, as request to rotate journal, rotating.",
+  "Vacuuming done, freed 0B of archived journals from /var/log/journal/7ccd002c4743424fac1da6e9fb1c6eee.",
+  "Received SIGUSR2 signal from PID 61582, as request to rotate journal, rotating.",
+  "Vacuuming done, freed 0B of archived journals from /var/log/journal/7ccd002c4743424fac1da6e9fb1c6eee."
+ ],
+ "counters_before": {
+  "filebeat": {
+   "acked": 411800,
+   "failed": 14902,
+   "dropped": 0,
+   "pipeline_dropped": 0,
+   "pipeline_failed": 0,
+   "pipeline_retry": 14902
+  },
+  "fluentbit": {
+   "proc_records": 208049,
+   "dropped_records": 201741,
+   "retried_records": 212307,
+   "retries_failed": 5499,
+   "errors": 0
+  },
+  "vector": {
+   "discarded": 0.0,
+   "errors": 0.0,
+   "buffer_discarded": 0.0,
+   "sent_events": 410830.0
+  }
+ },
+ "counters_after": {
+  "filebeat": {
+   "acked": 419761,
+   "failed": 14902,
+   "dropped": 0,
+   "pipeline_dropped": 0,
+   "pipeline_failed": 0,
+   "pipeline_retry": 14902
+  },
+  "fluentbit": {
+   "proc_records": 216049,
+   "dropped_records": 201741,
+   "retried_records": 212307,
+   "retries_failed": 5499,
+   "errors": 0
+  },
+  "vector": {
+   "discarded": 0.0,
+   "errors": 0.0,
+   "buffer_discarded": 0.0,
+   "sent_events": 418829.0
+  }
+ },
+ "mem_mb": {
+  "lc-fluentbit": 12.5,
+  "lc-vector": 53.5,
+  "lc-filebeat": 60.1,
+  "lc-host": 14.6,
+  "lc-es": 1768.4
+ },
+ "states": {
+  "lc-es": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-14T16:49:15.509108197Z",
+   "RestartCount": 0
+  },
+  "lc-host": {
+   "Running": true,
+   "OOMKilled": true,
+   "StartedAt": "2026-11-14T14:15:27.21692039Z",
+   "RestartCount": 0
+  },
+  "lc-filebeat": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-14T15:21:44.543028145Z",
+   "RestartCount": 0
+  },
+  "lc-fluentbit": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-14T15:21:44.544539799Z",
+   "RestartCount": 0
+  },
+  "lc-vector": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-14T15:21:44.548101928Z",
+   "RestartCount": 0
+  }
+ },
+ "restarts_before": {
+  "lc-filebeat": 0,
+  "lc-fluentbit": 0,
+  "lc-vector": 0
+ }
+}

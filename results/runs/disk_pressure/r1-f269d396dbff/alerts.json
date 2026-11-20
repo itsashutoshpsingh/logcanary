@@ -1,0 +1,56 @@
+{
+ "filebeat": {
+  "status": "warn",
+  "warn_lines": 28,
+  "loss_lines": 0,
+  "samples": [
+   "{\"log.level\":\"warn\",\"@timestamp\":\"2026-11-14T18:06:25.179Z\",\"log.logger\":\"transport\",\"log.origin\":{\"function\":\"github.com/elastic/elastic-agent-libs/transport/httpcommon.(*HTTPTransportSettings).RoundTripper.NetDialer.TestNetDialer.func3\",\"file.name\":\"transport/tcp.go\",\"file.line\":53},\"message\":\"DNS",
+   "{\"log.level\":\"error\",\"@timestamp\":\"2026-11-14T18:06:25.179Z\",\"log.logger\":\"elasticsearch.esclientleg\",\"log.origin\":{\"function\":\"github.com/elastic/elastic-agent-libs/transport/httpcommon.(*HTTPTransportSettings).RoundTripper.LoggingDialer.func1\",\"file.name\":\"transport/logging.go\",\"file.line\":39},\"me",
+   "{\"log.level\":\"error\",\"@timestamp\":\"2026-11-14T18:06:25.179Z\",\"log.logger\":\"elasticsearch\",\"log.origin\":{\"function\":\"github.com/elastic/beats/v7/libbeat/outputs/elasticsearch.(*Client).handleBulkResultError\",\"file.name\":\"elasticsearch/client.go\",\"file.line\":347},\"message\":\"failed to perform any bulk ",
+   "{\"log.level\":\"error\",\"@timestamp\":\"2026-11-14T18:06:26.275Z\",\"log.logger\":\"publisher_pipeline_output\",\"log.origin\":{\"function\":\"github.com/elastic/beats/v7/libbeat/publisher/pipeline.(*netClientWorker).publishBatch\",\"file.name\":\"pipeline/client_worker.go\",\"file.line\":174},\"message\":\"failed to publis",
+   "{\"log.level\":\"warn\",\"@timestamp\":\"2026-11-14T18:06:26.278Z\",\"log.logger\":\"transport\",\"log.origin\":{\"function\":\"github.com/elastic/elastic-agent-libs/transport/httpcommon.(*HTTPTransportSettings).RoundTripper.NetDialer.TestNetDialer.func3\",\"file.name\":\"transport/tcp.go\",\"file.line\":53},\"message\":\"DNS"
+  ]
+ },
+ "fluentbit": {
+  "status": "loss",
+  "warn_lines": 948,
+  "loss_lines": 228,
+  "samples": [
+   "[2026/11/14 18:06:30.961] [error] [engine] chunk '1-1794679583.958286234.flb' cannot be retried: task_id=4, input=tail.0 > output=es.0",
+   "[2026/11/14 18:06:30.962] [error] [engine] chunk '1-1794679583.956420371.flb' cannot be retried: task_id=5, input=systemd.1 > output=es.0",
+   "[2026/11/14 18:06:31.958] [error] [engine] chunk '1-1794679582.958488544.flb' cannot be retried: task_id=2, input=tail.0 > output=es.0",
+   "[2026/11/14 18:06:32.957] [error] [engine] chunk '1-1794679586.205280792.flb' cannot be retried: task_id=9, input=systemd.1 > output=es.0",
+   "[2026/11/14 18:06:33.957] [error] [engine] chunk '1-1794679586.956868581.flb' cannot be retried: task_id=11, input=systemd.1 > output=es.0"
+  ]
+ },
+ "vector": {
+  "status": "loss",
+  "warn_lines": 17,
+  "loss_lines": 5,
+  "samples": [
+   "2026-11-14T18:07:22.541557Z  WARN sink{component_kind=\"sink\" component_id=es component_type=elasticsearch}:request{request_id=2860}: vector::sinks::util::retries: Internal log [Request timed out. If this happens often while the events are actually reaching their destination, try decreasing `batch.ma",
+   "2026-11-14T18:07:22.547238Z  WARN sink{component_kind=\"sink\" component_id=es component_type=elasticsearch}:request{request_id=2862}:http: vector::internal_events::http_client: Internal log [HTTP error.] is being suppressed to avoid flooding.",
+   "2026-11-14T18:07:22.547306Z  WARN sink{component_kind=\"sink\" component_id=es component_type=elasticsearch}:request{request_id=2862}: vector::sinks::util::retries: Internal log [Retrying after error.] is being suppressed to avoid flooding.",
+   "2026-11-14T18:07:37.604122Z  WARN sink{component_kind=\"sink\" component_id=es component_type=elasticsearch}:request{request_id=2864}:http: vector::internal_events::http_client: Internal log [HTTP error.] has been suppressed 6 times.",
+   "2026-11-14T18:07:37.604186Z  WARN sink{component_kind=\"sink\" component_id=es component_type=elasticsearch}:request{request_id=2864}: vector::sinks::util::retries: Internal log [Retrying after error.] has been suppressed 6 times."
+  ]
+ },
+ "rsyslog": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "journald": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ },
+ "supervisor": {
+  "status": "quiet",
+  "warn_lines": 0,
+  "loss_lines": 0,
+  "samples": []
+ }
+}

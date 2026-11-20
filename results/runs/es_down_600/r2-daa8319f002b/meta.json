@@ -1,0 +1,333 @@
+{
+ "run": "daa8319f002b",
+ "condition": "es_down_600",
+ "title": "Elasticsearch stopped for 10 min",
+ "repeat": 2,
+ "params": {
+  "rate": 20,
+  "count": 14400,
+  "size": 256,
+  "sizes": "",
+  "kinds": "plain",
+  "shipper_set": "default",
+  "settle_s": 20
+ },
+ "faults": [
+  {
+   "action": "es_stop",
+   "kwargs": {},
+   "offset_s": 30,
+   "start_ns": 1794674355451265133,
+   "end_ns": 1794674361464218530,
+   "error": ""
+  },
+  {
+   "action": "es_start",
+   "kwargs": {},
+   "offset_s": 630,
+   "start_ns": 1794674955451295087,
+   "end_ns": 1794674977006323238,
+   "error": ""
+  }
+ ],
+ "t_start_ns": 1794674325450620141,
+ "t_writer_done_ns": 1794675045565391474,
+ "writer": {
+  "run": "daa8319f002b",
+  "count": 14400,
+  "srcs": [
+   "syslog",
+   "journald"
+  ],
+  "elapsed_s": 719.95,
+  "achieved_rate": 20.0,
+  "send_errors": 0
+ },
+ "settle": {
+  "waited_s": 95.9,
+  "final_counts": {
+   "filebeat": 28800,
+   "fluentbit": 4406,
+   "vector": 0
+  },
+  "trail": [
+   {
+    "t_s": 0.3,
+    "counts": {
+     "filebeat": 28494,
+     "fluentbit": 4382,
+     "vector": 0
+    }
+   },
+   {
+    "t_s": 5.3,
+    "counts": {
+     "filebeat": 28800,
+     "fluentbit": 4406,
+     "vector": 0
+    }
+   },
+   {
+    "t_s": 10.4,
+    "counts": {
+     "filebeat": 28800,
+     "fluentbit": 4406,
+     "vector": 0
+    }
+   },
+   {
+    "t_s": 15.4,
+    "counts": {
+     "filebeat": 28800,
+     "fluentbit": 4406,
+     "vector": 0
+    }
+   },
+   {
+    "t_s": 20.4,
+    "counts": {
+     "filebeat": 28800,
+     "fluentbit": 4406,
+     "vector": 0
+    }
+   },
+   {
+    "t_s": 25.4,
+    "counts": {
+     "filebeat": 28800,
+     "fluentbit": 4406,
+     "vector": 0
+    }
+   },
+   {
+    "t_s": 30.5,
+    "counts": {
+     "filebeat": 28800,
+     "fluentbit": 4406,
+     "vector": 0
+    }
+   },
+   {
+    "t_s": 35.5,
+    "counts": {
+     "filebeat": 28800,
+     "fluentbit": 4406,
+     "vector": 0
+    }
+   },
+   {
+    "t_s": 40.5,
+    "counts": {
+     "filebeat": 28800,
+     "fluentbit": 4406,
+     "vector": 0
+    }
+   },
+   {
+    "t_s": 45.6,
+    "counts": {
+     "filebeat": 28800,
+     "fluentbit": 4406,
+     "vector": 0
+    }
+   },
+   {
+    "t_s": 50.6,
+    "counts": {
+     "filebeat": 28800,
+     "fluentbit": 4406,
+     "vector": 0
+    }
+   },
+   {
+    "t_s": 55.7,
+    "counts": {
+     "filebeat": 28800,
+     "fluentbit": 4406,
+     "vector": 0
+    }
+   },
+   {
+    "t_s": 60.7,
+    "counts": {
+     "filebeat": 28800,
+     "fluentbit": 4406,
+     "vector": 0
+    }
+   },
+   {
+    "t_s": 65.7,
+    "counts": {
+     "filebeat": 28800,
+     "fluentbit": 4406,
+     "vector": 0
+    }
+   },
+   {
+    "t_s": 70.7,
+    "counts": {
+     "filebeat": 28800,
+     "fluentbit": 4406,
+     "vector": 0
+    }
+   },
+   {
+    "t_s": 75.8,
+    "counts": {
+     "filebeat": 28800,
+     "fluentbit": 4406,
+     "vector": 0
+    }
+   },
+   {
+    "t_s": 80.8,
+    "counts": {
+     "filebeat": 28800,
+     "fluentbit": 4406,
+     "vector": 0
+    }
+   },
+   {
+    "t_s": 85.8,
+    "counts": {
+     "filebeat": 28800,
+     "fluentbit": 4406,
+     "vector": 0
+    }
+   },
+   {
+    "t_s": 90.8,
+    "counts": {
+     "filebeat": 28800,
+     "fluentbit": 4406,
+     "vector": 0
+    }
+   },
+   {
+    "t_s": 95.9,
+    "counts": {
+     "filebeat": 28800,
+     "fluentbit": 4406,
+     "vector": 0
+    }
+   }
+  ]
+ },
+ "preflight": {
+  "restarted": []
+ },
+ "probe_on_disk": {
+  "syslog": 14400,
+  "journald": 14400
+ },
+ "host_supervisor": [],
+ "journald_stderr_tail": [
+  "Collecting audit messages is enabled.",
+  "Failed to join audit multicast group. The kernel is probably too old or multicast reading is not supported. Ignoring: Operation not permitted",
+  "File /var/log/journal/7ccd002c4743424fac1da6e9fb1c6eee/system.journal corrupted or uncleanly shut down, renaming and replacing.",
+  "Under memory pressure, flushing caches.",
+  "Received SIGUSR2 signal from PID 7151, as request to rotate journal, rotating.",
+  "Vacuuming done, freed 0B of archived journals from /var/log/journal/7ccd002c4743424fac1da6e9fb1c6eee.",
+  "Received SIGUSR2 signal from PID 7997, as request to rotate journal, rotating.",
+  "Vacuuming done, freed 0B of archived journals from /var/log/journal/7ccd002c4743424fac1da6e9fb1c6eee.",
+  "Received SIGUSR2 signal from PID 8888, as request to rotate journal, rotating.",
+  "Vacuuming done, freed 0B of archived journals from /var/log/journal/7ccd002c4743424fac1da6e9fb1c6eee.",
+  "Received SIGUSR2 signal from PID 10143, as request to rotate journal, rotating.",
+  "Vacuuming done, freed 0B of archived journals from /var/log/journal/7ccd002c4743424fac1da6e9fb1c6eee.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches.",
+  "Under memory pressure, flushing caches."
+ ],
+ "counters_before": {
+  "filebeat": {
+   "acked": 256883,
+   "failed": 11475,
+   "dropped": 0,
+   "pipeline_dropped": 0,
+   "pipeline_failed": 0,
+   "pipeline_retry": 11475
+  },
+  "fluentbit": {
+   "proc_records": 77439,
+   "dropped_records": 177347,
+   "retried_records": 187549,
+   "retries_failed": 4279,
+   "errors": 0
+  },
+  "vector": {
+   "discarded": 0.0,
+   "errors": 0.0,
+   "buffer_discarded": 0.0,
+   "sent_events": 228201.0
+  }
+ },
+ "counters_after": {
+  "filebeat": {
+   "acked": 285683,
+   "failed": 11879,
+   "dropped": 0,
+   "pipeline_dropped": 0,
+   "pipeline_failed": 0,
+   "pipeline_retry": 11879
+  },
+  "fluentbit": {
+   "proc_records": 81845,
+   "dropped_records": 201741,
+   "retried_records": 212307,
+   "retries_failed": 5499,
+   "errors": 0
+  },
+  "vector": {
+   "discarded": 0.0,
+   "errors": 0.0,
+   "buffer_discarded": 0.0,
+   "sent_events": 228201.0
+  }
+ },
+ "mem_mb": {
+  "lc-fluentbit": 10.4,
+  "lc-vector": 75.7,
+  "lc-filebeat": 57.1,
+  "lc-host": 41.1,
+  "lc-es": 1651.7
+ },
+ "states": {
+  "lc-es": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-14T16:49:15.509108197Z",
+   "RestartCount": 0
+  },
+  "lc-host": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-14T14:15:27.21692039Z",
+   "RestartCount": 0
+  },
+  "lc-filebeat": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-14T15:21:44.543028145Z",
+   "RestartCount": 0
+  },
+  "lc-fluentbit": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-14T15:21:44.544539799Z",
+   "RestartCount": 0
+  },
+  "lc-vector": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-11-14T15:21:44.548101928Z",
+   "RestartCount": 0
+  }
+ },
+ "restarts_before": {
+  "lc-filebeat": 0,
+  "lc-fluentbit": 0,
+  "lc-vector": 0
+ }
+}
